@@ -8,15 +8,26 @@ namespace ecs {
 template <typename ComponentType>
 class Component : public IComponent {
  public:
+  virtual ~Component();
+
   std::size_t GetComponentTypeId() const noexcept override;
 
  private:
-  static const std::size_t component_type_id_;
+  static const std::size_t kComponentTypeId_;
 };
+
+// ComponentType initialization
+template <typename ComponentType>
+const std::size_t Component<ComponentType>::kComponentTypeId_ =
+    1;  // TODO: needs to generate unique id for every ComponentType
 
 template <typename ComponentType>
 std::size_t Component<ComponentType>::GetComponentTypeId() const noexcept {
-  return component_type_id_;
+  return kComponentTypeId_;
+}
+
+template <typename ComponentType>
+Component<ComponentType>::~Component() {
 }
 
 }  // namespace ecs
