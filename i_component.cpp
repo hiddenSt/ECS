@@ -1,5 +1,6 @@
 #include "i_component.hpp"
-ecs::IComponent::EntityId ecs::IComponent::GetEntityId() const noexcept {
+
+ecs::EntityId ecs::IComponent::GetEntityId() const noexcept {
   return entity_id_;
 }
 void ecs::IComponent::Activate() noexcept {

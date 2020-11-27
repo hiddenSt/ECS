@@ -2,6 +2,7 @@
 #define ECS__COMPONENT_HPP_
 
 #include "i_component.hpp"
+#include "types.hpp"
 
 namespace ecs {
 
@@ -10,7 +11,7 @@ class Component : public IComponent {
  public:
   virtual ~Component();
 
-  std::size_t GetComponentTypeId() const noexcept override;
+  ComponentTypeId GetComponentTypeId() const noexcept override;
 
  private:
   static const std::size_t kComponentTypeId_;
@@ -22,7 +23,7 @@ const std::size_t Component<ComponentType>::kComponentTypeId_ =
     1;  // TODO: needs to generate unique id for every ComponentType
 
 template <typename ComponentType>
-std::size_t Component<ComponentType>::GetComponentTypeId() const noexcept {
+ComponentTypeId Component<ComponentType>::GetComponentTypeId() const noexcept {
   return kComponentTypeId_;
 }
 
