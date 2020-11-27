@@ -9,8 +9,6 @@ class IComponent {
  public:
   using EntityId = std::size_t;
 
-  explicit IComponent() noexcept;
-
   EntityId GetEntityId() const noexcept;
   void Activate() noexcept;
   void Deactivate() noexcept;
