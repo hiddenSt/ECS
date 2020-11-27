@@ -10,6 +10,7 @@ class IComponentContainer {
  public:
   virtual ComponentContainerId GetComponentContainerId() = 0;
   virtual IComponent* GetComponent(const EntityId& entity_id) = 0;
+  virtual IComponent* AddComponent(const EntityId& entity_id) = 0;
 };
 
 }  // namespace ecs

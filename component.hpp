@@ -12,6 +12,7 @@ class Component : public IComponent {
   virtual ~Component();
 
   ComponentTypeId GetComponentTypeId() const noexcept override;
+  static ComponentTypeId GetTypeId() noexcept;
 
  private:
   static const std::size_t kComponentTypeId_;
@@ -29,6 +30,12 @@ ComponentTypeId Component<ComponentType>::GetComponentTypeId() const noexcept {
 
 template <typename ComponentType>
 Component<ComponentType>::~Component() {
+  // TODO: need to throw exception
+}
+
+template <typename ComponentType>
+ComponentTypeId Component<ComponentType>::GetTypeId() noexcept {
+  return kComponentTypeId_;
 }
 
 }  // namespace ecs
