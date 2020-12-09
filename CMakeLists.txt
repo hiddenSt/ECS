@@ -1,7 +1,15 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.10)
 
 project(ECS)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(ECS i_component.cpp i_component.hpp component.hpp i_component_container.hpp types.hpp components_manger.cpp components_manger.hpp)
+include_directories(include)
+
+add_subdirectory(libs)
+add_subdirectory(tests)
+
+set(HEADERS include/component.hpp include/component_type.hpp include/components_container.hpp include/component_type_container.hpp include/components_manager.hpp)
+set(SOURCES src/component.cpp src/components_container.cpp src/components_manager.cpp)
+
+add_library(ECS ${HEADERS} ${SOURCES})
