@@ -9,7 +9,7 @@ include_directories(include)
 add_subdirectory(libs)
 add_subdirectory(tests)
 
-set(HEADERS include/component.hpp include/component_type.hpp include/components_container.hpp include/component_type_container.hpp include/components_manager.hpp)
+set(HEADERS include/component.hpp include/component_type.hpp include/components_container.hpp include/component_type_container.hpp include/components_manager.hpp include/component_type_iterator.hpp include/component_iterator.hpp)
 set(SOURCES src/component.cpp src/components_container.cpp src/components_manager.cpp)
 
 add_library(ECS ${HEADERS} ${SOURCES})

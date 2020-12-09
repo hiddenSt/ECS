@@ -16,6 +16,7 @@ class ComponentTypeContainer : ComponentsContainer {
   Component* GetComponent(const std::size_t& entity_id) override;
   Component* AddComponent(const std::size_t& entity_id) override;
   void RemoveComponent(const std::size_t& entity_id) override;
+  ComponentIterator* GetComponentsIterator() override;
 
  private:
   Alloc& alloc_;
@@ -46,6 +47,11 @@ ComponentTypeContainer<T, Alloc, MapAlloc>::ComponentTypeContainer(const Alloc& 
                                                                    const MapAlloc& map_alloc)
     : alloc_(alloc),
       map_alloc_(std::map<std::size_t, T*, std::less<std::size_t>, MapAlloc>(map_alloc)) {
+}
+
+template <typename T, typename Alloc, typename MapAlloc>
+ComponentIterator* ComponentTypeContainer<T, Alloc, MapAlloc>::GetComponentsIterator() {
+
 }
 
 }  // namespace ecs
