@@ -5,27 +5,28 @@
 
 namespace ecs {
 
-template <typename T>
+template <typename ConcreteComponentType>
 class ComponentType : public Component {
  public:
-  static const std::size_t StaticGetComponentTypeId() noexcept;
+  static const ComponentTypeId StaticGetComponentTypeId() noexcept;
 
-  const std::size_t GetComponentTypeId() const noexcept override;
+  const ComponentTypeId GetComponentTypeId() const noexcept override;
 
  private:
-  static const std::size_t COMPONENT_TYPE_ID_;
+  static const ComponentTypeId COMPONENT_TYPE_ID_;
 };
 
-template <typename T>
-const std::size_t ecs::ComponentType<T>::COMPONENT_TYPE_ID_ = Component::SetComponentTypeId<T>();
+template <typename ConcreteComponentType>
+const ComponentTypeId ecs::ComponentType<ConcreteComponentType>::COMPONENT_TYPE_ID_ =
+    Component::SetComponentTypeId<ConcreteComponentType>();
 
-template <typename T>
-const std::size_t ComponentType<T>::GetComponentTypeId() const noexcept {
+template <typename ConcreteComponentType>
+const ComponentTypeId ComponentType<ConcreteComponentType>::GetComponentTypeId() const noexcept {
   return COMPONENT_TYPE_ID_;
 }
 
-template <typename T>
-const std::size_t ComponentType<T>::StaticGetComponentTypeId() noexcept {
+template <typename ConcreteComponentType>
+const ComponentTypeId ComponentType<ConcreteComponentType>::StaticGetComponentTypeId() noexcept {
   return COMPONENT_TYPE_ID_;
 }
 

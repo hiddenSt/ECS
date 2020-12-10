@@ -8,17 +8,17 @@ namespace ecs {
 
 class ComponentsContainer {
  public:
-  explicit ComponentsContainer(const std::size_t& component_type_id) noexcept;
+  explicit ComponentsContainer(const ComponentTypeId& component_type_id) noexcept;
 
-  virtual Component* GetComponent(const std::size_t& entity_id) = 0;
-  virtual Component* AddComponent(const std::size_t& entity_id) = 0;
-  virtual void RemoveComponent(const std::size_t& entity_id) = 0;
+  virtual Component* GetComponent(const EntityId& entity_id) = 0;
+  virtual Component* AddComponent(const EntityId& entity_id) = 0;
+  virtual void RemoveComponent(const EntityId& entity_id) = 0;
   virtual ComponentIterator* GetComponentsIterator() = 0;
 
-  const std::size_t GetComponentTypeId() const noexcept;
+  const ComponentTypeId GetComponentTypeId() const noexcept;
 
  protected:
-  const std::size_t COMPONENT_TYPE_ID_;
+  const ComponentTypeId COMPONENT_TYPE_ID_;
 };
 
 }  // namespace ecs
