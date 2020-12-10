@@ -8,9 +8,9 @@ namespace ecs {
 template <typename ConcreteComponentType>
 class ComponentType : public Component {
  public:
-  static const ComponentTypeId StaticGetComponentTypeId() noexcept;
+  static ComponentTypeId StaticGetComponentTypeId() noexcept;
 
-  const ComponentTypeId GetComponentTypeId() const noexcept override;
+  ComponentTypeId GetComponentTypeId() const noexcept override;
 
  private:
   static const ComponentTypeId COMPONENT_TYPE_ID_;
@@ -21,12 +21,12 @@ const ComponentTypeId ecs::ComponentType<ConcreteComponentType>::COMPONENT_TYPE_
     Component::SetComponentTypeId<ConcreteComponentType>();
 
 template <typename ConcreteComponentType>
-const ComponentTypeId ComponentType<ConcreteComponentType>::GetComponentTypeId() const noexcept {
+ComponentTypeId ComponentType<ConcreteComponentType>::GetComponentTypeId() const noexcept {
   return COMPONENT_TYPE_ID_;
 }
 
 template <typename ConcreteComponentType>
-const ComponentTypeId ComponentType<ConcreteComponentType>::StaticGetComponentTypeId() noexcept {
+ComponentTypeId ComponentType<ConcreteComponentType>::StaticGetComponentTypeId() noexcept {
   return COMPONENT_TYPE_ID_;
 }
 

@@ -9,9 +9,9 @@
 namespace ecs {
 
 template <typename T, typename Alloc, typename MapAlloc>
-class ComponentTypeContainer : ComponentsContainer {
+class ComponentTypeContainer : public ComponentsContainer {
  public:
-  explicit ComponentTypeContainer(const Alloc& alloc, const MapAlloc& map_alloc);
+  explicit ComponentTypeContainer(Alloc& alloc, MapAlloc& map_alloc);
 
   Component* GetComponent(const EntityId& entity_id) override;
   Component* AddComponent(const EntityId& entity_id) override;
@@ -26,13 +26,18 @@ class ComponentTypeContainer : ComponentsContainer {
 
 template <typename T, typename Alloc, typename MapAlloc>
 Component* ComponentTypeContainer<T, Alloc, MapAlloc>::GetComponent(const EntityId& entity_id) {
-  return entity_lookup_table_.find(entity_id);
+  auto search = entity_lookup_table_.find(entity_id);
+  if (search == entity_lookup_table_.end()) {
+    return nullptr;
+  }
+
+  return search->second;
 }
 
 template <typename T, typename Alloc, typename MapAlloc>
 Component* ComponentTypeContainer<T, Alloc, MapAlloc>::AddComponent(const EntityId& entity_id) {
-  auto* new_comp = alloc_.Allocate();
-  new_comp = new (new_comp) T();
+  auto* new_comp_memory = alloc_.Allocate();
+  auto* new_comp = new (new_comp_memory) T();
   entity_lookup_table_.insert(std::make_pair(entity_id, new_comp));
   return new_comp;
 }
@@ -40,15 +45,17 @@ Component* ComponentTypeContainer<T, Alloc, MapAlloc>::AddComponent(const Entity
 template <typename T, typename Alloc, typename MapAlloc>
 void ComponentTypeContainer<T, Alloc, MapAlloc>::RemoveComponent(const EntityId& entity_id) {
   auto comp_pair = entity_lookup_table_.find(entity_id);
-  alloc_.Free(comp_pair->seccond);
+  alloc_.Free(comp_pair->second);
   entity_lookup_table_.erase(entity_id);
 }
 
 template <typename T, typename Alloc, typename MapAlloc>
-ComponentTypeContainer<T, Alloc, MapAlloc>::ComponentTypeContainer(const Alloc& alloc,
-                                                                   const MapAlloc& map_alloc)
-    : alloc_(alloc),
-      map_alloc_(std::map<std::size_t, T*, std::less<std::size_t>, MapAlloc>(map_alloc)) {
+ComponentTypeContainer<T, Alloc, MapAlloc>::ComponentTypeContainer(Alloc& alloc,
+                                                                   MapAlloc& map_alloc)
+    : ComponentsContainer(T::StaticGetComponentTypeId()),
+      alloc_(alloc),
+      map_alloc_(map_alloc),
+      entity_lookup_table_(map_alloc) {
 }
 
 template <typename T, typename Alloc, typename MapAlloc>

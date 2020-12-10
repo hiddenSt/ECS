@@ -61,4 +61,5 @@ ComponentTypeIterator<T>* ComponentsManager::GetComponentsIterator() {
 }
 
 }  // namespace ecs
+
 #endif  // ECS_INCLUDE_COMPONENTS_MANAGER_HPP_

@@ -15,7 +15,7 @@ class ComponentsContainer {
   virtual void RemoveComponent(const EntityId& entity_id) = 0;
   virtual ComponentIterator* GetComponentsIterator() = 0;
 
-  const ComponentTypeId GetComponentTypeId() const noexcept;
+  ComponentTypeId GetComponentTypeId() const noexcept;
 
  protected:
   const ComponentTypeId COMPONENT_TYPE_ID_;

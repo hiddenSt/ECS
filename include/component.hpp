@@ -11,10 +11,10 @@ class Component {
 
   void SetEntityId(const EntityId& entity_id) noexcept;
   EntityId GetEntityId() const noexcept;
-  virtual const ComponentTypeId GetComponentTypeId() const noexcept = 0;
+  virtual ComponentTypeId GetComponentTypeId() const noexcept = 0;
 
   template <typename ConcreteComponentType>
-  static const ComponentTypeId SetComponentTypeId();
+  static ComponentTypeId SetComponentTypeId();
 
  private:
   static std::size_t components_types_counter;
@@ -23,7 +23,7 @@ class Component {
 };
 
 template <typename ConcreteComponentType>
-const ComponentTypeId ecs::Component::SetComponentTypeId() {
+ComponentTypeId ecs::Component::SetComponentTypeId() {
   static ComponentTypeId new_type_id = ++components_types_counter;
   return new_type_id;
 }
