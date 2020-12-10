@@ -53,7 +53,6 @@ ComponentTypeContainer<T, Alloc, MapAlloc>::ComponentTypeContainer(const Alloc& 
 
 template <typename T, typename Alloc, typename MapAlloc>
 ComponentIterator* ComponentTypeContainer<T, Alloc, MapAlloc>::GetComponentsIterator() {
-
 }
 
 }  // namespace ecs

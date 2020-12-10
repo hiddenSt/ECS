@@ -55,7 +55,8 @@ void ComponentsManager::RemoveComponent(const size_t& entity_id) {
 template <typename T>
 ComponentTypeIterator<T>* ComponentsManager::GetComponentsIterator() {
   const std::size_t component_type_id = T::StaticGetComponentTypeId();
-  ComponentIterator* iterator = components_types_containers_[component_type_id]->GetComponentsIterator();
+  ComponentIterator* iterator =
+      components_types_containers_[component_type_id]->GetComponentsIterator();
   return static_cast<ComponentTypeIterator<T>*>(iterator);
 }
 
