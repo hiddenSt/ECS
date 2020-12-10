@@ -2,6 +2,7 @@
 #define ECS_INCLUDE_COMPONENT_TYPE_CONTAINER_HPP_
 
 #include <map>
+#include <stdexcept>
 #include <utility>
 
 #include "components_container.hpp"
@@ -36,16 +37,29 @@ Component* ComponentTypeContainer<T, Alloc, MapAlloc>::GetComponent(const Entity
 
 template <typename T, typename Alloc, typename MapAlloc>
 Component* ComponentTypeContainer<T, Alloc, MapAlloc>::AddComponent(const EntityId& entity_id) {
-  auto* new_comp_memory = alloc_.Allocate();
-  auto* new_comp = new (new_comp_memory) T();
+  auto component = entity_lookup_table_.find(entity_id);
+  if (component != entity_lookup_table_.end()) {
+    throw std::logic_error("Entity already has component of this type");
+  }
+  auto* new_component_memory = alloc_.Allocate();
+  if (new_component_memory == nullptr) {
+    throw std::logic_error("Can not allocate memory for component");
+  }
+
+  auto* new_comp = new (new_component_memory) T();
   entity_lookup_table_.insert(std::make_pair(entity_id, new_comp));
   return new_comp;
 }
 
 template <typename T, typename Alloc, typename MapAlloc>
 void ComponentTypeContainer<T, Alloc, MapAlloc>::RemoveComponent(const EntityId& entity_id) {
-  auto comp_pair = entity_lookup_table_.find(entity_id);
-  alloc_.Free(comp_pair->second);
+  auto component = entity_lookup_table_.find(entity_id);
+
+  if (component == entity_lookup_table_.end()) {
+    throw std::logic_error("Can not remove component because entity does not has one");
+  }
+
+  alloc_.Free(component->second);
   entity_lookup_table_.erase(entity_id);
 }
 
