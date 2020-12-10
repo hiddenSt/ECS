@@ -39,7 +39,9 @@ Component* ComponentTypeContainer<T, Alloc, MapAlloc>::AddComponent(const size_t
 
 template <typename T, typename Alloc, typename MapAlloc>
 void ComponentTypeContainer<T, Alloc, MapAlloc>::RemoveComponent(const size_t& entity_id) {
-  // TODO: need implementation
+  auto comp_pair = entity_lookup_table_.find(entity_id);
+  alloc_.Free(comp_pair->seccond);
+  entity_lookup_table_.erase(entity_id);
 }
 
 template <typename T, typename Alloc, typename MapAlloc>
