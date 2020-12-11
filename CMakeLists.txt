@@ -17,7 +17,14 @@ set(HEADERS include/component.hpp
             include/components_manager.hpp
             include/component_type_iterator.hpp
             include/component_iterator.hpp
-            include/types.hpp)
-set(SOURCES src/component.cpp src/components_container.cpp src/components_manager.cpp)
+            include/types.hpp
+            include/system.hpp
+            include/system_manager.hpp)
+set(SOURCES
+            src/component.cpp
+            src/components_container.cpp
+            src/components_manager.cpp
+            src/system.cpp
+            src/system_manager.cpp)
 
 add_library(ECS ${HEADERS} ${SOURCES})
