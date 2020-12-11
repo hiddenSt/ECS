@@ -8,11 +8,12 @@ class ComponentsContainerTest : public ::testing::Test {
   void SetUp() override {
     allocated_memory_ = new unsigned char[sizeof(ComponentExample) * 2];
     pool_allocator_ = new allocators::PoolAllocator(allocated_memory_, sizeof(ComponentExample) * 2,
-                                                         sizeof(ComponentExample));
+                                                    sizeof(ComponentExample));
     alloc_ = new std::allocator<std::pair<const ecs::EntityId, ComponentExample*>>;
     components_container_ = new ecs::ComponentTypeContainer<
         ComponentExample, allocators::PoolAllocator,
-        std::allocator<std::pair<const ecs::EntityId, ComponentExample*>>>(*pool_allocator_, *alloc_);
+        std::allocator<std::pair<const ecs::EntityId, ComponentExample*>>>(*pool_allocator_,
+                                                                           *alloc_);
   }
 
   void TearDown() override {
@@ -22,15 +23,16 @@ class ComponentsContainerTest : public ::testing::Test {
   }
 
   struct ComponentExample : public ecs::ComponentType<ComponentExample> {
-    ComponentExample(int a1, double c1) : a(a1), c(c1), d(0.9) {}
+    ComponentExample(int a1, double c1) : a(a1), c(c1), d(0.9) {
+    }
     int a;
     double c;
     double d;
   };
 
-  ecs::ComponentTypeContainer<
-      ComponentExample, allocators::PoolAllocator,
-      std::allocator<std::pair<const ecs::EntityId, ComponentExample*>>> *components_container_;
+  ecs::ComponentTypeContainer<ComponentExample, allocators::PoolAllocator,
+                              std::allocator<std::pair<const ecs::EntityId, ComponentExample*>>>*
+      components_container_;
 
   unsigned char* allocated_memory_;
   std::allocator<std::pair<const ecs::EntityId, ComponentExample*>>* alloc_;
@@ -43,15 +45,17 @@ TEST_F(ComponentsContainerTest, ContainerHasCorrectComponentTypeId) {
 }
 
 TEST_F(ComponentsContainerTest, AddComponent) {
-  auto* pos = components_container_->AddComponent(1, 10, 0.02);
-  auto pos_comp = static_cast<ComponentExample*>(pos);
+  auto* pos = components_container_->AddComponent(1);
+  auto* pos_comp = new (pos) ComponentExample(10, 0.02);
+  pos_comp->a = 10;
+  pos_comp->c = 0.02;
   ASSERT_EQ(pos_comp->a, 10);
   ASSERT_EQ(pos_comp->c, 0.02);
 }
 
 TEST_F(ComponentsContainerTest, GetComponent) {
-  auto* component = components_container_->AddComponent(1, 10, 0.02);
-  auto component_type_pointer = static_cast<ComponentExample*>(component);
+  auto* component = components_container_->AddComponent(1);
+  auto* component_type_pointer = new (component) ComponentExample(10, 0.01);
 
   auto* component_request = components_container_->GetComponent(1);
   auto casted_to_component_type = static_cast<ComponentExample*>(component_request);
@@ -64,9 +68,10 @@ TEST_F(ComponentsContainerTest, GetComponent) {
 }
 
 TEST_F(ComponentsContainerTest, RemoveComponent) {
-  components_container_->AddComponent(1, 0, 0);
-  auto* component = components_container_->GetComponent(1);
-  ASSERT_NE(component, nullptr);
+  auto* component = components_container_->AddComponent(1);
+  new (component) ComponentExample(10, 0.02);
+  auto* component_request = components_container_->GetComponent(1);
+  ASSERT_NE(component_request, nullptr);
 
   components_container_->RemoveComponent(1);
   component = components_container_->GetComponent(1);
@@ -78,19 +83,32 @@ TEST_F(ComponentsContainerTest, ThrowsExceptionIfTryingToRemoveNotExistingCompon
 }
 
 TEST_F(ComponentsContainerTest, ThrowsExceptionIfTryingToAddComponentTypeThatEntityAlreadyHas) {
-  components_container_->AddComponent(1, 0, 0);
-  ASSERT_THROW(components_container_->AddComponent(1, 0, 0), std::logic_error);
+  auto* component = components_container_->AddComponent(1);
+  new (component) ComponentExample(10, 0.02);
+  ASSERT_THROW(components_container_->AddComponent(1), std::logic_error);
 }
 
 TEST_F(ComponentsContainerTest, MultipleAddWorks) {
-  components_container_->AddComponent(1, 0, 0);
-  components_container_->AddComponent(2, 0, 0);
-  auto* component_of_entity2 = static_cast<ComponentExample*>(components_container_->GetComponent(2));
-  auto* component_of_entity1 = static_cast<ComponentExample*>(components_container_->GetComponent(1));
+  auto* component_1 = components_container_->AddComponent(1);
+  auto* component_2 = components_container_->AddComponent(2);
+  auto* comp_exmp_1 = new (component_1) ComponentExample(1, 9.8);
+  auto* comp_exmp_2 = new (component_2) ComponentExample(-91, 0.1);
+  comp_exmp_1->SetEntityId(1);
+  comp_exmp_2->SetEntityId(2);
+
+  auto* component_of_entity2 =
+      static_cast<ComponentExample*>(components_container_->GetComponent(2));
+  auto* component_of_entity1 =
+      static_cast<ComponentExample*>(components_container_->GetComponent(1));
 
   ASSERT_NE(component_of_entity1, nullptr);
   ASSERT_EQ(component_of_entity1->GetEntityId(), 1);
 
   ASSERT_NE(component_of_entity2, nullptr);
   ASSERT_EQ(component_of_entity2->GetEntityId(), 2);
+}
+
+TEST_F(ComponentsContainerTest, GetComponentTypeId) {
+  ASSERT_EQ(components_container_->GetComponentTypeId(),
+            ComponentExample::StaticGetComponentTypeId());
 }

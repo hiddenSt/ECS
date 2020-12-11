@@ -15,6 +15,7 @@ class Component {
 
   template <typename ConcreteComponentType>
   static ComponentTypeId SetComponentTypeId();
+  static std::size_t GetComponentsTypesCount();
 
  private:
   static std::size_t components_types_counter;
