@@ -9,6 +9,8 @@ namespace ecs {
 
 class SystemManager {
  public:
+  static SystemManager& Instance();
+
   void Initialize();
   void AddSystem(System* system);
   void PreUpdate();
@@ -16,10 +18,16 @@ class SystemManager {
   void PostUpdate();
   void AddDependency();
 
- protected:
  private:
+  explicit SystemManager() = default;
+  explicit SystemManager(const SystemManager& other) = delete;
+
+  static SystemManager* instance_;
+
   std::vector<System*> systems_topological_order_;
 };
+
+SystemManager* SystemManager::instance_ = nullptr;
 
 }  // namespace ecs
 
