@@ -2,6 +2,7 @@
 #include "component_type_container.hpp"
 #include "gtest/gtest.h"
 #include "pool_allocator.hpp"
+#include "utility/map_look_up_table.hpp"
 
 class ComponentsContainerTest : public ::testing::Test {
  protected:
@@ -9,17 +10,13 @@ class ComponentsContainerTest : public ::testing::Test {
     allocated_memory_ = new unsigned char[sizeof(ComponentExample) * 2];
     pool_allocator_ = new allocators::PoolAllocator(allocated_memory_, sizeof(ComponentExample) * 2,
                                                     sizeof(ComponentExample));
-    alloc_ = new std::allocator<std::pair<const ecs::EntityId, ComponentExample*>>;
-    components_container_ = new ecs::ComponentTypeContainer<
-        ComponentExample, allocators::PoolAllocator,
-        std::allocator<std::pair<const ecs::EntityId, ComponentExample*>>>(*pool_allocator_,
-                                                                           *alloc_);
+    map_look_up_table_ = new ecs::util::MapLookUpTable();
+    components_container_ =
+        new ecs::ComponentTypeContainer<ComponentExample, allocators::PoolAllocator>(
+            *pool_allocator_, *map_look_up_table_);
   }
 
   void TearDown() override {
-    delete alloc_;
-    delete pool_allocator_;
-    delete allocated_memory_;
   }
 
   struct ComponentExample : public ecs::ComponentType<ComponentExample> {
@@ -30,13 +27,11 @@ class ComponentsContainerTest : public ::testing::Test {
     double d;
   };
 
-  ecs::ComponentTypeContainer<ComponentExample, allocators::PoolAllocator,
-                              std::allocator<std::pair<const ecs::EntityId, ComponentExample*>>>*
-      components_container_;
+  ecs::ComponentTypeContainer<ComponentExample, allocators::PoolAllocator>* components_container_;
 
   unsigned char* allocated_memory_;
-  std::allocator<std::pair<const ecs::EntityId, ComponentExample*>>* alloc_;
   allocators::PoolAllocator* pool_allocator_;
+  ecs::util::MapLookUpTable* map_look_up_table_;
 };
 
 TEST_F(ComponentsContainerTest, ContainerHasCorrectComponentTypeId) {

@@ -9,12 +9,14 @@ namespace ecs {
 
 class SystemManager {
  public:
+  void Initialize();
   void AddSystem(System* system);
   void PreUpdate();
   void Update();
   void PostUpdate();
   void AddDependency();
 
+ protected:
  private:
   std::vector<System*> systems_topological_order_;
 };

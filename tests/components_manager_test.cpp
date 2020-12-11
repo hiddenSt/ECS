@@ -5,6 +5,7 @@
 #include "component_type.hpp"
 #include "gtest/gtest.h"
 #include "pool_allocator.hpp"
+#include "utility/map_look_up_table.hpp"
 
 class ComponentManagerTest : public ::testing::Test {
  protected:
@@ -15,16 +16,14 @@ class ComponentManagerTest : public ::testing::Test {
                                                       sizeof(ComponentType1));
     pool_allocator_2_ = new allocators::PoolAllocator(memory_arena_2_, sizeof(ComponentType2) * 2,
                                                       sizeof(ComponentType2));
-    map_alloc_1_ = new std::allocator<std::pair<const ecs::EntityId, ComponentType1*>>();
-    map_alloc_2_ = new std::allocator<std::pair<const ecs::EntityId, ComponentType2*>>();
-    component_type1_container_ = new ecs::ComponentTypeContainer<
-        ComponentType1, allocators::PoolAllocator,
-        std::allocator<std::pair<const ecs::EntityId, ComponentType1*>>>(*pool_allocator_1_,
-                                                                         *map_alloc_1_);
-    component_type2_container_ = new ecs::ComponentTypeContainer<
-        ComponentType2, allocators::PoolAllocator,
-        std::allocator<std::pair<const ecs::EntityId, ComponentType2*>>>(*pool_allocator_2_,
-                                                                         *map_alloc_2_);
+    map_look_up_table1_ = new ecs::util::MapLookUpTable();
+    map_look_up_table2_ = new ecs::util::MapLookUpTable();
+    component_type1_container_ =
+        new ecs::ComponentTypeContainer<ComponentType1, allocators::PoolAllocator>(
+            *pool_allocator_1_, *map_look_up_table1_);
+    component_type2_container_ =
+        new ecs::ComponentTypeContainer<ComponentType2, allocators::PoolAllocator>(
+            *pool_allocator_2_, *map_look_up_table2_);
 
     components_manager_ = new ecs::ComponentsManager(ecs::Component::GetComponentsTypesCount());
     components_manager_->AddComponentContainer(component_type1_container_);
@@ -51,10 +50,10 @@ class ComponentManagerTest : public ::testing::Test {
 
   unsigned char* memory_arena_1_;
   unsigned char* memory_arena_2_;
+  ecs::util::MapLookUpTable* map_look_up_table1_;
+  ecs::util::MapLookUpTable* map_look_up_table2_;
   allocators::PoolAllocator* pool_allocator_1_;
   allocators::PoolAllocator* pool_allocator_2_;
-  std::allocator<std::pair<const ecs::EntityId, ComponentType1*>>* map_alloc_1_;
-  std::allocator<std::pair<const ecs::EntityId, ComponentType2*>>* map_alloc_2_;
   ecs::ComponentsContainer* component_type1_container_;
   ecs::ComponentsContainer* component_type2_container_;
   ecs::ComponentsManager* components_manager_;
@@ -67,8 +66,7 @@ TEST_F(ComponentManagerTest, AddComponent) {
   ASSERT_EQ(component_type_1->b, 2);
   ASSERT_EQ(component_type_1->c, 0.1) << "C: " << component_type_1->c;
 
-  ComponentType2* component_type_2 =
-      components_manager_->AddComponent<ComponentType2>(1, 15, "Hello world");
+  auto* component_type_2 = components_manager_->AddComponent<ComponentType2>(1, 15, "Hello world");
   ASSERT_NE(component_type_2, nullptr);
   ASSERT_EQ(component_type_2->a, 15);
   ASSERT_EQ(component_type_2->str, "Hello world");

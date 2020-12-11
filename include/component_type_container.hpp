@@ -6,13 +6,14 @@
 #include <utility>
 
 #include "components_container.hpp"
+#include "components_look_up_table.hpp"
 
 namespace ecs {
 
-template <typename T, typename Alloc, typename MapAlloc>
+template <typename T, typename Alloc>
 class ComponentTypeContainer : public ComponentsContainer {
  public:
-  explicit ComponentTypeContainer(Alloc& alloc, MapAlloc& map_alloc);
+  explicit ComponentTypeContainer(Alloc& alloc, ComponentsLookUpTable& components_look_up_table);
 
   Component* AddComponent(const EntityId& entity_id) override;
   Component* GetComponent(const EntityId& entity_id) override;
@@ -21,49 +22,43 @@ class ComponentTypeContainer : public ComponentsContainer {
 
  private:
   Alloc& alloc_;
-  MapAlloc& map_alloc_;
-  std::map<EntityId, T*, std::less<EntityId>, MapAlloc> entity_lookup_table_;
+  ComponentsLookUpTable& entity_lookup_table_;
 };
 
-template <typename T, typename Alloc, typename MapAlloc>
-Component* ComponentTypeContainer<T, Alloc, MapAlloc>::GetComponent(const EntityId& entity_id) {
-  auto search = entity_lookup_table_.find(entity_id);
-  if (search == entity_lookup_table_.end()) {
-    return nullptr;
-  }
-
-  return search->second;
+template <typename T, typename Alloc>
+Component* ComponentTypeContainer<T, Alloc>::GetComponent(const EntityId& entity_id) {
+  auto search = entity_lookup_table_.Find(entity_id);
+  return search;
 }
 
-template <typename T, typename Alloc, typename MapAlloc>
-void ComponentTypeContainer<T, Alloc, MapAlloc>::RemoveComponent(const EntityId& entity_id) {
-  auto component = entity_lookup_table_.find(entity_id);
+template <typename T, typename Alloc>
+void ComponentTypeContainer<T, Alloc>::RemoveComponent(const EntityId& entity_id) {
+  auto component = entity_lookup_table_.Find(entity_id);
 
-  if (component == entity_lookup_table_.end()) {
+  if (component == nullptr) {
     throw std::logic_error("Can not remove component because entity does not has one");
   }
 
-  alloc_.Free(component->second);
-  entity_lookup_table_.erase(entity_id);
+  alloc_.Free(component);
+  entity_lookup_table_.Remove(entity_id);
 }
 
-template <typename T, typename Alloc, typename MapAlloc>
-ComponentTypeContainer<T, Alloc, MapAlloc>::ComponentTypeContainer(Alloc& alloc,
-                                                                   MapAlloc& map_alloc)
+template <typename T, typename Alloc>
+ComponentTypeContainer<T, Alloc>::ComponentTypeContainer(Alloc& alloc,
+                                                         ComponentsLookUpTable& look_up_table)
     : ComponentsContainer(T::StaticGetComponentTypeId()),
       alloc_(alloc),
-      map_alloc_(map_alloc),
-      entity_lookup_table_(map_alloc) {
+      entity_lookup_table_(look_up_table) {
 }
 
-template <typename T, typename Alloc, typename MapAlloc>
-ComponentIterator* ComponentTypeContainer<T, Alloc, MapAlloc>::GetComponentsIterator() {
+template <typename T, typename Alloc>
+ComponentIterator* ComponentTypeContainer<T, Alloc>::GetComponentsIterator() {
 }
 
-template <typename T, typename Alloc, typename MapAlloc>
-Component* ComponentTypeContainer<T, Alloc, MapAlloc>::AddComponent(const EntityId& entity_id) {
-  auto component = entity_lookup_table_.find(entity_id);
-  if (component != entity_lookup_table_.end()) {
+template <typename T, typename Alloc>
+Component* ComponentTypeContainer<T, Alloc>::AddComponent(const EntityId& entity_id) {
+  auto component = entity_lookup_table_.Find(entity_id);
+  if (component != nullptr) {
     throw std::logic_error("Entity already has component of this type");
   }
   auto* new_component_memory = alloc_.Allocate();
@@ -71,7 +66,7 @@ Component* ComponentTypeContainer<T, Alloc, MapAlloc>::AddComponent(const Entity
     throw std::logic_error("Can not allocate memory for component");
   }
   auto new_comp = static_cast<T*>(new_component_memory);
-  entity_lookup_table_.insert(std::make_pair(entity_id, new_comp));
+  entity_lookup_table_.Insert(entity_id, new_comp);
   return static_cast<Component*>(new_comp);
 }
 

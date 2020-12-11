@@ -19,12 +19,16 @@ set(HEADERS include/component.hpp
             include/component_iterator.hpp
             include/types.hpp
             include/system.hpp
-            include/system_manager.hpp)
+            include/system_manager.hpp
+            include/system_type.hpp
+            include/components_look_up_table.hpp
+            include/utility/map_look_up_table.hpp)
 set(SOURCES
             src/component.cpp
             src/components_container.cpp
             src/components_manager.cpp
             src/system.cpp
-            src/system_manager.cpp)
+            src/system_manager.cpp
+            src/utility/map_look_up_table.cpp)
 
 add_library(ECS ${HEADERS} ${SOURCES})

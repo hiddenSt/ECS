@@ -13,21 +13,21 @@ class ComponentType : public Component {
   ComponentTypeId GetComponentTypeId() const noexcept override;
 
  private:
-  static const ComponentTypeId COMPONENT_TYPE_ID_;
+  static const ComponentTypeId kComponentTypeId_;
 };
 
 template <typename ConcreteComponentType>
-const ComponentTypeId ecs::ComponentType<ConcreteComponentType>::COMPONENT_TYPE_ID_ =
+const ComponentTypeId ComponentType<ConcreteComponentType>::kComponentTypeId_ =
     Component::SetComponentTypeId<ConcreteComponentType>();
 
 template <typename ConcreteComponentType>
 ComponentTypeId ComponentType<ConcreteComponentType>::GetComponentTypeId() const noexcept {
-  return COMPONENT_TYPE_ID_;
+  return kComponentTypeId_;
 }
 
 template <typename ConcreteComponentType>
 ComponentTypeId ComponentType<ConcreteComponentType>::StaticGetComponentTypeId() noexcept {
-  return COMPONENT_TYPE_ID_;
+  return kComponentTypeId_;
 }
 
 }  // namespace ecs
