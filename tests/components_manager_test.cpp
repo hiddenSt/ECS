@@ -109,3 +109,17 @@ TEST_F(ComponentManagerTest, RemoveComponent) {
   auto* component_type2_request = components_manager_->GetComponent<ComponentType2>(1);
   ASSERT_EQ(component_type2_request, nullptr);
 }
+
+TEST_F(ComponentManagerTest, ComponentHasCorrectEntityId) {
+  auto* component_type_1 = components_manager_->AddComponent<ComponentType1>(1, 1, 2, 0.1);
+  auto* component_type_2 = components_manager_->AddComponent<ComponentType2>(1, 15, "Hello world");
+
+  ASSERT_EQ(component_type_1->GetEntityId(), 1);
+  ASSERT_EQ(component_type_2->GetEntityId(), 1);
+}
+
+TEST_F(ComponentManagerTest, GetComponentReturnsNullptrIfNoRequestedComponent) {
+  auto* component_type_1 = components_manager_->AddComponent<ComponentType1>(1, 1, 2, 0.1);
+  ASSERT_EQ(components_manager_->GetComponent<ComponentType1>(2), nullptr);
+  ASSERT_EQ(components_manager_->GetComponent<ComponentType2>(1), nullptr);
+}

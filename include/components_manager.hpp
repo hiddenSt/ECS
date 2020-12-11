@@ -68,9 +68,6 @@ ComponentsManager::ComponentsManager(const size_t number_of_components_types)
 
 void ComponentsManager::AddComponentContainer(ComponentsContainer* components_container) {
   const ComponentTypeId kComponentTypeId = components_container->GetComponentTypeId();
-  if (kComponentTypeId > components_types_containers_.size()) {
-    throw std::logic_error("Wrong ID");
-  }
   components_types_containers_[kComponentTypeId - 1] = components_container;
 }
 
