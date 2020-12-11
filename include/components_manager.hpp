@@ -11,7 +11,9 @@ namespace ecs {
 
 class ComponentsManager {
  public:
-  explicit ComponentsManager(const size_t number_of_components_types);
+  static void Initialize(unsigned char* memory_ptr, const size_t& number_of_components_types);
+  static ComponentsManager& Instance();
+  static void Destroy();
 
   void AddComponentContainer(ComponentsContainer* components_container);
 
@@ -28,8 +30,14 @@ class ComponentsManager {
   ComponentTypeIterator<T>* GetComponentsIterator();
 
  private:
+  explicit ComponentsManager(const size_t& number_of_components_types);
+  ~ComponentsManager() = default;
+  static ComponentsManager* instance_;
+
   std::vector<ComponentsContainer*> components_types_containers_;
 };
+
+ComponentsManager* ComponentsManager::instance_ = nullptr;
 
 template <typename T, typename... Args>
 T* ComponentsManager::AddComponent(const EntityId& entity_id, Args&&... args) {
@@ -62,8 +70,26 @@ void ComponentsManager::RemoveComponent(const EntityId& entity_id) {
   components_types_containers_[kStaticGetComponentTypeId - 1]->RemoveComponent(entity_id);
 }
 
-ComponentsManager::ComponentsManager(const size_t number_of_components_types)
+
+ComponentsManager::ComponentsManager(const size_t& number_of_components_types)
     : components_types_containers_(number_of_components_types, nullptr) {
+}
+
+void ComponentsManager::Initialize(unsigned char* memory_ptr, const size_t& number_of_components_types) {
+  if (instance_ != nullptr) {
+    return;
+  }
+
+  instance_ = new(memory_ptr) ComponentsManager(number_of_components_types);
+}
+
+ComponentsManager& ComponentsManager::Instance() {
+  return *instance_;
+}
+
+void ComponentsManager::Destroy() {
+  instance_->~ComponentsManager();
+  instance_ = nullptr;
 }
 
 void ComponentsManager::AddComponentContainer(ComponentsContainer* components_container) {

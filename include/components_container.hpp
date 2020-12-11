@@ -8,6 +8,8 @@ namespace ecs {
 
 class ComponentsContainer {
  public:
+  virtual ~ComponentsContainer() = default;
+
   explicit ComponentsContainer(const ComponentTypeId& component_type_id) noexcept;
   ComponentTypeId GetComponentTypeId() const noexcept;
   virtual Component* AddComponent(const EntityId& entity_id) = 0;
