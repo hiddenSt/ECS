@@ -23,7 +23,7 @@ set(HEADERS include/component.hpp
             include/system_type.hpp
             include/components_look_up_table.hpp
             include/utility/map_look_up_table.hpp
-            include/entity_manager.hpp)
+            include/entity_manager.hpp include/entitys_id_container.hpp)
 set(SOURCES
             src/component.cpp
             src/components_container.cpp
