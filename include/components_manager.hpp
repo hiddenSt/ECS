@@ -5,10 +5,11 @@
 
 #include "component_type_iterator.hpp"
 #include "components_container.hpp"
+#include "component_type_container.hpp"
 
 namespace ecs {
 
-class ComponentsManager {
+/*class ComponentsManager {
  public:
   template <typename T, typename... Args>
   T* AddComponent(const EntityId& entity_id, Args&&... args);
@@ -49,6 +50,7 @@ T* ComponentsManager::GetComponent(const EntityId& entity_id) {
 template <typename T>
 void ComponentsManager::RemoveComponent(const EntityId& entity_id) {
   const ComponentTypeId component_type_id = T::StaticGetComponentTypeId();
+  auto component_container = static_cast<ComponentTypeContainer<T>*>(components_types_containers_[component_type_id]);
   components_types_containers_[component_type_id]->RemoveComponent(entity_id);
 }
 
@@ -59,7 +61,7 @@ ComponentTypeIterator<T>* ComponentsManager::GetComponentsIterator() {
       components_types_containers_[component_type_id]->GetComponentsIterator();
   return static_cast<ComponentTypeIterator<T>*>(iterator);
 }
-
+*/
 }  // namespace ecs
 
 #endif  // ECS_INCLUDE_COMPONENTS_MANAGER_HPP_

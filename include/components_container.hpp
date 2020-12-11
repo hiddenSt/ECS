@@ -9,12 +9,6 @@ namespace ecs {
 class ComponentsContainer {
  public:
   explicit ComponentsContainer(const ComponentTypeId& component_type_id) noexcept;
-
-  virtual Component* GetComponent(const EntityId& entity_id) = 0;
-  virtual Component* AddComponent(const EntityId& entity_id) = 0;
-  virtual void RemoveComponent(const EntityId& entity_id) = 0;
-  virtual ComponentIterator* GetComponentsIterator() = 0;
-
   ComponentTypeId GetComponentTypeId() const noexcept;
 
  protected:
