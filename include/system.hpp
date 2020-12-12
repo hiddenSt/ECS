@@ -31,6 +31,25 @@ ecs::SystemTypeId ecs::System::SetSystemTypeId() {
   return new_system_type_id;
 }
 
+void System::SetUp() {
+}
+
+void System::ShutDown() {
+}
+
+void System::Update() {
+}
+
+void System::PreUpdate() {
+}
+
+void System::PostUpdate() {
+}
+
+std::size_t System::GetSystemTypesCount() {
+  return systems_types_counter_;
+}
+
 }  // namespace ecs
 
 #endif  // ECS_INCLUDE_SYSTEM_HPP_

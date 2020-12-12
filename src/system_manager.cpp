@@ -30,3 +30,7 @@ ecs::SystemManager& ecs::SystemManager::Instance() {
 
   return *instance_;
 }
+
+void ecs::SystemManager::AddDependency(System* dependent, System* independent) {
+  dependency_graph_[dependent->GetSystemTypeId()][independent->GetSystemTypeId()] = 1;
+}

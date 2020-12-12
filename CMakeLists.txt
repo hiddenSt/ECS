@@ -30,8 +30,7 @@ set(HEADERS include/component.hpp
 set(SOURCES
             src/component.cpp
             src/components_container.cpp
-            src/system.cpp
-            src/system_manager.cpp
+        src/system_manager.cpp
             src/utility/map_look_up_table.cpp
             src/entity_manager.cpp
             src/engine.cpp
