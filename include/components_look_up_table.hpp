@@ -2,6 +2,7 @@
 #define ECS_INCLUDE_COMPONENTS_LOOK_UP_TABLE_HPP_
 
 #include "component.hpp"
+#include "components_iterator.hpp"
 #include "types.hpp"
 
 namespace ecs {
@@ -11,6 +12,7 @@ class ComponentsLookUpTable {
   virtual void Insert(const EntityId& entity_id, Component* component) = 0;
   virtual void Remove(const EntityId& entity_id) = 0;
   virtual Component* Find(const EntityId& entity_id) = 0;
+  virtual ComponentsIterator* GetIterator() = 0;
 };
 
 }  // namespace ecs

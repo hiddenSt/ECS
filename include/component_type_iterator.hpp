@@ -1,49 +1,46 @@
 #ifndef ECS_INCLUDE_COMPONENT_TYPE_ITERATOR_HPP_
 #define ECS_INCLUDE_COMPONENT_TYPE_ITERATOR_HPP_
 
-#include <cstdint>
+#include "types.hpp"
 
 #include "components_container.hpp"
 
 namespace ecs {
 
 template <typename T>
-class ComponentTypeIterator : ComponentIterator {
+class ComponentTypeIterator {
  public:
-  explicit ComponentTypeIterator(ComponentsContainer& comp_container);
+  explicit ComponentTypeIterator(ComponentsIterator& iterator);
 
-  void First() override;
-  bool IsDone() override;
-  void Next() override;
+  void First();
+  bool IsDone();
+  void Next();
   T* GetCurrentComponent();
 
  private:
-  std::size_t current_component_index_;
-  ComponentsContainer& comp_container_;
-  T* current_component_;
+  ComponentsIterator& iterator_;
 };
 
 template <typename T>
-ComponentTypeIterator<T>::ComponentTypeIterator(ComponentsContainer& comp_container)
-    : comp_container_(comp_container), current_component_(nullptr), current_component_index_(0) {
+ComponentTypeIterator<T>::ComponentTypeIterator(ComponentsIterator& iterator) : iterator_(iterator_) {
 }
-
 template <typename T>
 void ComponentTypeIterator<T>::First() {
+  iterator_.First();
 }
-
 template <typename T>
 bool ComponentTypeIterator<T>::IsDone() {
-  return false;
-}
-
-template <typename T>
-T* ComponentTypeIterator<T>::GetCurrentComponent() {
-  return current_component_;
+  return iterator_.IsDone();
 }
 
 template <typename T>
 void ComponentTypeIterator<T>::Next() {
+  iterator_.Next();
+}
+
+template <typename T>
+T* ComponentTypeIterator<T>::GetCurrentComponent() {
+  return static_cast<T*>(iterator_.CurrentComponent());
 }
 
 }  // namespace ecs

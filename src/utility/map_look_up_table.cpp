@@ -15,3 +15,7 @@ ecs::Component *ecs::util::MapLookUpTable::Find(const ecs::EntityId &entity_id) 
   }
   return search->second;
 }
+
+ecs::ComponentsIterator *ecs::util::MapLookUpTable::GetIterator() {
+  return nullptr;
+}

@@ -7,7 +7,7 @@
 #include "pool_allocator.hpp"
 #include "utility/map_look_up_table.hpp"
 
-class ComponentManagerTest : public ::testing::Test {
+class ComponentsManagerTest : public ::testing::Test {
  protected:
   void SetUp() override {
     memory_arena_1_ = new unsigned char[sizeof(ComponentType1) * 2];
@@ -62,7 +62,7 @@ class ComponentManagerTest : public ::testing::Test {
   ecs::ComponentsContainer* component_type2_container_;
 };
 
-TEST_F(ComponentManagerTest, AddComponent) {
+TEST_F(ComponentsManagerTest, AddComponent) {
   auto* component_type_1 =
       ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
   ASSERT_NE(component_type_1, nullptr);
@@ -77,7 +77,7 @@ TEST_F(ComponentManagerTest, AddComponent) {
   ASSERT_EQ(component_type_2->str, "Hello world");
 }
 
-TEST_F(ComponentManagerTest, GetComponent) {
+TEST_F(ComponentsManagerTest, GetComponent) {
   auto* component_type_1 =
       ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
   auto* component_type_2 =
@@ -92,16 +92,16 @@ TEST_F(ComponentManagerTest, GetComponent) {
       ecs::ComponentsManager::Instance().GetComponent<ComponentType2>(1);
 
   ASSERT_EQ(component_type_1, component_type1_request);
-  ASSERT_EQ(component_type_2, component_type2_request);
-
   ASSERT_EQ(component_type_1->a, component_type1_request->a);
   ASSERT_EQ(component_type_1->b, component_type1_request->b);
   ASSERT_EQ(component_type_1->c, component_type1_request->c);
+
+  ASSERT_EQ(component_type_2, component_type2_request);
   ASSERT_EQ(component_type_2->a, component_type2_request->a);
   ASSERT_EQ(component_type_2->str, component_type2_request->str);
 }
 
-TEST_F(ComponentManagerTest, RemoveComponent) {
+TEST_F(ComponentsManagerTest, RemoveComponent) {
   auto* component_type_1 =
       ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
   auto* component_type_2 =
@@ -121,7 +121,7 @@ TEST_F(ComponentManagerTest, RemoveComponent) {
   ASSERT_EQ(component_type2_request, nullptr);
 }
 
-TEST_F(ComponentManagerTest, ComponentHasCorrectEntityId) {
+TEST_F(ComponentsManagerTest, ComponentHasCorrectEntityId) {
   auto* component_type_1 =
       ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
   auto* component_type_2 =
@@ -131,9 +131,27 @@ TEST_F(ComponentManagerTest, ComponentHasCorrectEntityId) {
   ASSERT_EQ(component_type_2->GetEntityId(), 1);
 }
 
-TEST_F(ComponentManagerTest, GetComponentReturnsNullptrIfNoRequestedComponent) {
+TEST_F(ComponentsManagerTest, GetComponentReturnsNullptrIfNoRequestedComponent) {
   auto* component_type_1 =
       ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
   ASSERT_EQ(ecs::ComponentsManager::Instance().GetComponent<ComponentType1>(2), nullptr);
   ASSERT_EQ(ecs::ComponentsManager::Instance().GetComponent<ComponentType2>(1), nullptr);
+}
+
+TEST_F(ComponentsManagerTest, WorksWithMultipleEntitys) {
+  auto* component_type_1 = ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(1, 2, "EntityId1Comp");
+  auto* component_type_2 = ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(4, 2, "EntityId4Comp");
+
+  ASSERT_NE(component_type_1, nullptr);
+  ASSERT_NE(component_type_2, nullptr);
+
+  auto* entity1_request = ecs::ComponentsManager::Instance().GetComponent<ComponentType2>(1);
+  ASSERT_EQ(component_type_1, entity1_request);
+  ASSERT_EQ(component_type_1->str, entity1_request->str);
+  ASSERT_EQ(component_type_1->a, entity1_request->a);
+
+  auto* entity2_request = ecs::ComponentsManager::Instance().GetComponent<ComponentType2>(4);
+  ASSERT_EQ(component_type_2, entity2_request);
+  ASSERT_EQ(component_type_2->str, entity2_request->str);
+  ASSERT_EQ(component_type_2->a, entity2_request->a);
 }

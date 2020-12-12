@@ -18,7 +18,7 @@ class ComponentTypeContainer : public ComponentsContainer {
   Component* AddComponent(const EntityId& entity_id) override;
   Component* GetComponent(const EntityId& entity_id) override;
   void RemoveComponent(const EntityId& entity_id) override;
-  ComponentIterator* GetComponentsIterator();
+  ComponentsIterator* GetComponentsIterator() override;
 
  private:
   Alloc& alloc_;
@@ -52,7 +52,8 @@ ComponentTypeContainer<T, Alloc>::ComponentTypeContainer(Alloc& alloc,
 }
 
 template <typename T, typename Alloc>
-ComponentIterator* ComponentTypeContainer<T, Alloc>::GetComponentsIterator() {
+ComponentsIterator* ComponentTypeContainer<T, Alloc>::GetComponentsIterator() {
+  return entity_lookup_table_.GetIterator();
 }
 
 template <typename T, typename Alloc>

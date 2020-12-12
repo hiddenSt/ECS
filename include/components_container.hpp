@@ -2,7 +2,7 @@
 #define ECS_INCLUDE_COMPONENTS_CONTAINER_HPP_
 
 #include "component.hpp"
-#include "component_iterator.hpp"
+#include "components_iterator.hpp"
 
 namespace ecs {
 
@@ -15,6 +15,7 @@ class ComponentsContainer {
   virtual Component* AddComponent(const EntityId& entity_id) = 0;
   virtual Component* GetComponent(const EntityId& entity_id) = 0;
   virtual void RemoveComponent(const EntityId& entity_id) = 0;
+  virtual ComponentsIterator* GetComponentsIterator() = 0;
 
  protected:
   const ComponentTypeId COMPONENT_TYPE_ID_;

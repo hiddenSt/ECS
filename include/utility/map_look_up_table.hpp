@@ -15,6 +15,7 @@ class MapLookUpTable : public ComponentsLookUpTable {
   void Insert(const EntityId& entity_id, Component* component) override;
   void Remove(const EntityId& entity_id) override;
   Component* Find(const EntityId& entity_id) override;
+  ComponentsIterator* GetIterator() override;
 
  private:
   std::map<EntityId, Component*> look_up_table_;

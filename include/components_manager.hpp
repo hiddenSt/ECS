@@ -29,6 +29,8 @@ class ComponentsManager {
   template <typename T>
   ComponentTypeIterator<T>* GetComponentsIterator();
 
+  template <typename T>
+  void DestroyComponentTypeIterator(ComponentTypeIterator<T>* iterator);
  private:
   explicit ComponentsManager(const size_t& number_of_components_types);
   ~ComponentsManager() = default;
@@ -103,13 +105,18 @@ void ComponentsManager::AddComponentContainer(ComponentsContainer* components_co
   components_types_containers_[kComponentTypeId - 1] = components_container;
 }
 
-/*template <typename T>
+template <typename T>
 ComponentTypeIterator<T>* ComponentsManager::GetComponentsIterator() {
-  const ComponentTypeId component_type_id = T::StaticGetComponentTypeId();
-  ComponentIterator* iterator =
-      components_types_containers_[component_type_id]->GetComponentsIterator();
-  return static_cast<ComponentTypeIterator<T>*>(iterator);
-}*/
+  const ComponentTypeId kGetComponentTypeId = T::StaticGetComponentTypeId();
+  ComponentsIterator* iterator = components_types_containers_[kGetComponentTypeId]->GetComponentsIterator();
+  ComponentTypeIterator<T>* component_type_iterator = new ComponentTypeIterator<T>(iterator);
+  return component_type_iterator;
+}
+
+template <typename T>
+void ComponentsManager::DestroyComponentTypeIterator(ComponentTypeIterator<T>* iterator) {
+  delete iterator;
+}
 
 }  // namespace ecs
 

@@ -16,7 +16,6 @@ set(HEADERS include/component.hpp
             include/component_type_container.hpp
             include/components_manager.hpp
             include/component_type_iterator.hpp
-            include/component_iterator.hpp
             include/types.hpp
             include/system.hpp
             include/system_manager.hpp
@@ -25,7 +24,9 @@ set(HEADERS include/component.hpp
             include/utility/map_look_up_table.hpp
             include/entity_manager.hpp
             include/entitys_id_container.hpp
-            include/engine.hpp)
+            include/engine.hpp
+            include/components_iterator.hpp
+            include/utility/map_components_iterator.hpp)
 set(SOURCES
             src/component.cpp
             src/components_container.cpp
@@ -33,6 +34,7 @@ set(SOURCES
             src/system_manager.cpp
             src/utility/map_look_up_table.cpp
             src/entity_manager.cpp
-            src/engine.cpp)
+            src/engine.cpp
+            src/utility/map_components_iterator.cpp)
 
 add_library(ECS ${HEADERS} ${SOURCES})
