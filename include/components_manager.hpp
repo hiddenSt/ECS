@@ -70,20 +70,26 @@ void ComponentsManager::RemoveComponent(const EntityId& entity_id) {
   components_types_containers_[kStaticGetComponentTypeId - 1]->RemoveComponent(entity_id);
 }
 
-
 ComponentsManager::ComponentsManager(const size_t& number_of_components_types)
     : components_types_containers_(number_of_components_types, nullptr) {
 }
 
-void ComponentsManager::Initialize(unsigned char* memory_ptr, const size_t& number_of_components_types) {
+void ComponentsManager::Initialize(unsigned char* memory_ptr,
+                                   const size_t& number_of_components_types) {
   if (instance_ != nullptr) {
     return;
   }
 
-  instance_ = new(memory_ptr) ComponentsManager(number_of_components_types);
+  instance_ = new (memory_ptr) ComponentsManager(number_of_components_types);
 }
 
 ComponentsManager& ComponentsManager::Instance() {
+  if (instance_ == nullptr) {
+    throw std::logic_error(
+        "ComponentsManager has to be initialize before using it. Call "
+        "ComponentManager::Initialize(unsigned char* memory, const std::size_t& "
+        "components_types_count))");
+  }
   return *instance_;
 }
 

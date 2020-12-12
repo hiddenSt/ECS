@@ -63,27 +63,33 @@ class ComponentManagerTest : public ::testing::Test {
 };
 
 TEST_F(ComponentManagerTest, AddComponent) {
-  auto* component_type_1 = ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
+  auto* component_type_1 =
+      ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
   ASSERT_NE(component_type_1, nullptr);
   ASSERT_EQ(component_type_1->a, 1);
   ASSERT_EQ(component_type_1->b, 2);
   ASSERT_EQ(component_type_1->c, 0.1) << "C: " << component_type_1->c;
 
-  auto* component_type_2 = ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(1, 15, "Hello world");
+  auto* component_type_2 =
+      ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(1, 15, "Hello world");
   ASSERT_NE(component_type_2, nullptr);
   ASSERT_EQ(component_type_2->a, 15);
   ASSERT_EQ(component_type_2->str, "Hello world");
 }
 
 TEST_F(ComponentManagerTest, GetComponent) {
-  auto* component_type_1 = ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
-  auto* component_type_2 = ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(1, 15, "Hello world");
+  auto* component_type_1 =
+      ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
+  auto* component_type_2 =
+      ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(1, 15, "Hello world");
 
   ASSERT_NE(component_type_1, nullptr);
   ASSERT_NE(component_type_2, nullptr);
 
-  auto* component_type1_request = ecs::ComponentsManager::Instance().GetComponent<ComponentType1>(1);
-  auto* component_type2_request = ecs::ComponentsManager::Instance().GetComponent<ComponentType2>(1);
+  auto* component_type1_request =
+      ecs::ComponentsManager::Instance().GetComponent<ComponentType1>(1);
+  auto* component_type2_request =
+      ecs::ComponentsManager::Instance().GetComponent<ComponentType2>(1);
 
   ASSERT_EQ(component_type_1, component_type1_request);
   ASSERT_EQ(component_type_2, component_type2_request);
@@ -96,31 +102,38 @@ TEST_F(ComponentManagerTest, GetComponent) {
 }
 
 TEST_F(ComponentManagerTest, RemoveComponent) {
-  auto* component_type_1 = ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
-  auto* component_type_2 = ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(1, 15, "Hello world");
+  auto* component_type_1 =
+      ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
+  auto* component_type_2 =
+      ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(1, 15, "Hello world");
 
   ASSERT_NE(component_type_1, nullptr);
   ASSERT_NE(component_type_2, nullptr);
 
   ecs::ComponentsManager::Instance().RemoveComponent<ComponentType1>(1);
-  auto* component_type1_request = ecs::ComponentsManager::Instance().GetComponent<ComponentType1>(1);
+  auto* component_type1_request =
+      ecs::ComponentsManager::Instance().GetComponent<ComponentType1>(1);
   ASSERT_EQ(component_type1_request, nullptr);
 
   ecs::ComponentsManager::Instance().RemoveComponent<ComponentType2>(1);
-  auto* component_type2_request = ecs::ComponentsManager::Instance().GetComponent<ComponentType2>(1);
+  auto* component_type2_request =
+      ecs::ComponentsManager::Instance().GetComponent<ComponentType2>(1);
   ASSERT_EQ(component_type2_request, nullptr);
 }
 
 TEST_F(ComponentManagerTest, ComponentHasCorrectEntityId) {
-  auto* component_type_1 = ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
-  auto* component_type_2 = ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(1, 15, "Hello world");
+  auto* component_type_1 =
+      ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
+  auto* component_type_2 =
+      ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(1, 15, "Hello world");
 
   ASSERT_EQ(component_type_1->GetEntityId(), 1);
   ASSERT_EQ(component_type_2->GetEntityId(), 1);
 }
 
 TEST_F(ComponentManagerTest, GetComponentReturnsNullptrIfNoRequestedComponent) {
-  auto* component_type_1 = ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
+  auto* component_type_1 =
+      ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
   ASSERT_EQ(ecs::ComponentsManager::Instance().GetComponent<ComponentType1>(2), nullptr);
   ASSERT_EQ(ecs::ComponentsManager::Instance().GetComponent<ComponentType2>(1), nullptr);
 }

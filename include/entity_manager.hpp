@@ -20,7 +20,6 @@ class EntityManager {
   std::size_t entitys_counter_;
 
   static EntityManager* instance_;
-
 };
 
 EntityManager* EntityManager::instance_ = nullptr;

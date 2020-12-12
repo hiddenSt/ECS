@@ -24,13 +24,15 @@ set(HEADERS include/component.hpp
             include/components_look_up_table.hpp
             include/utility/map_look_up_table.hpp
             include/entity_manager.hpp
-            include/entitys_id_container.hpp)
+            include/entitys_id_container.hpp
+            include/engine.hpp)
 set(SOURCES
             src/component.cpp
             src/components_container.cpp
-        src/system.cpp
+            src/system.cpp
             src/system_manager.cpp
             src/utility/map_look_up_table.cpp
-            src/entity_manager.cpp)
+            src/entity_manager.cpp
+            src/engine.cpp)
 
 add_library(ECS ${HEADERS} ${SOURCES})

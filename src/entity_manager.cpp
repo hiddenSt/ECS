@@ -12,7 +12,8 @@ ecs::EntityManager& ecs::EntityManager::Create(ecs::EntitysIdContainer& entitys_
   return *instance_;
 }
 
-ecs::EntityManager::EntityManager(ecs::EntitysIdContainer& entitys_id_container) : entitys_id_container_(entitys_id_container) {
+ecs::EntityManager::EntityManager(ecs::EntitysIdContainer& entitys_id_container)
+    : entitys_id_container_(entitys_id_container) {
   entitys_counter_ = 0;
 }
 
