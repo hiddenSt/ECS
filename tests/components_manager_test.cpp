@@ -139,8 +139,10 @@ TEST_F(ComponentsManagerTest, GetComponentReturnsNullptrIfNoRequestedComponent) 
 }
 
 TEST_F(ComponentsManagerTest, WorksWithMultipleEntitys) {
-  auto* component_type_1 = ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(1, 2, "EntityId1Comp");
-  auto* component_type_2 = ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(4, 2, "EntityId4Comp");
+  auto* component_type_1 =
+      ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(1, 2, "EntityId1Comp");
+  auto* component_type_2 =
+      ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(4, 2, "EntityId4Comp");
 
   ASSERT_NE(component_type_1, nullptr);
   ASSERT_NE(component_type_2, nullptr);

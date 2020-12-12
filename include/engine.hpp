@@ -3,7 +3,7 @@
 
 #include "components_manager.hpp"
 #include "entity_manager.hpp"
-#include "system_manager.hpp"
+#include "systems_manager.hpp"
 
 namespace ecs {
 
@@ -33,7 +33,7 @@ class Engine {
 
   ComponentsManager& components_manager_;
   EntityManager& entity_manager_;
-  SystemManager& system_manager_;
+  SystemsManager& system_manager_;
 };
 
 Engine* Engine::instance_ = nullptr;

@@ -31,6 +31,7 @@ class ComponentsManager {
 
   template <typename T>
   void DestroyComponentTypeIterator(ComponentTypeIterator<T>* iterator);
+
  private:
   explicit ComponentsManager(const size_t& number_of_components_types);
   ~ComponentsManager() = default;
@@ -108,7 +109,8 @@ void ComponentsManager::AddComponentContainer(ComponentsContainer* components_co
 template <typename T>
 ComponentTypeIterator<T>* ComponentsManager::GetComponentsIterator() {
   const ComponentTypeId kGetComponentTypeId = T::StaticGetComponentTypeId();
-  ComponentsIterator* iterator = components_types_containers_[kGetComponentTypeId]->GetComponentsIterator();
+  ComponentsIterator* iterator =
+      components_types_containers_[kGetComponentTypeId]->GetComponentsIterator();
   ComponentTypeIterator<T>* component_type_iterator = new ComponentTypeIterator<T>(iterator);
   return component_type_iterator;
 }

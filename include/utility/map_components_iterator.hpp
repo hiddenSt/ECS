@@ -1,8 +1,9 @@
 #ifndef ECS_INCLUDE_UTILITY_MAP_COMPONENTS_ITERATOR_HPP_
 #define ECS_INCLUDE_UTILITY_MAP_COMPONENTS_ITERATOR_HPP_
 
-#include "components_iterator.hpp"
 #include <map>
+
+#include "components_iterator.hpp"
 
 namespace ecs {
 namespace util {
@@ -17,12 +18,9 @@ class MapComponentsIterator : public ComponentsIterator {
 
  private:
   std::map<EntityId, Component*>& map_;
-  
 };
 
 }  // namespace util
 }  // namespace ecs
-
-
 
 #endif  // ECS_INCLUDE_UTILITY_MAP_COMPONENTS_ITERATOR_HPP_

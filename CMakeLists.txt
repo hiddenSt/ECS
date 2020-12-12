@@ -18,7 +18,7 @@ set(HEADERS include/component.hpp
             include/component_type_iterator.hpp
             include/types.hpp
             include/system.hpp
-            include/system_manager.hpp
+        include/systems_manager.hpp
             include/system_type.hpp
             include/components_look_up_table.hpp
             include/utility/map_look_up_table.hpp
@@ -30,7 +30,7 @@ set(HEADERS include/component.hpp
 set(SOURCES
             src/component.cpp
             src/components_container.cpp
-        src/system_manager.cpp
+        src/systems_manager.cpp
             src/utility/map_look_up_table.cpp
             src/entity_manager.cpp
             src/engine.cpp

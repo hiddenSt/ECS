@@ -1,9 +1,8 @@
 #ifndef ECS_INCLUDE_COMPONENT_TYPE_ITERATOR_HPP_
 #define ECS_INCLUDE_COMPONENT_TYPE_ITERATOR_HPP_
 
-#include "types.hpp"
-
 #include "components_container.hpp"
+#include "types.hpp"
 
 namespace ecs {
 
@@ -22,7 +21,8 @@ class ComponentTypeIterator {
 };
 
 template <typename T>
-ComponentTypeIterator<T>::ComponentTypeIterator(ComponentsIterator& iterator) : iterator_(iterator_) {
+ComponentTypeIterator<T>::ComponentTypeIterator(ComponentsIterator& iterator)
+    : iterator_(iterator_) {
 }
 template <typename T>
 void ComponentTypeIterator<T>::First() {

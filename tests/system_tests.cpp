@@ -4,17 +4,19 @@
 class SystemTest : public ::testing::Test {
  protected:
   void SetUp() override {
-
   }
 
   void TearDown() override {
-
   }
 
   struct SystemType1 : public ecs::SystemType<SystemType1> {
     SystemType1() = default;
-    void Update() override { int a; }
-    void PreUpdate() override { int b; }
+    void Update() override {
+      int a;
+    }
+    void PreUpdate() override {
+      int b;
+    }
 
     int param1;
     int param2;
@@ -22,8 +24,12 @@ class SystemTest : public ::testing::Test {
 
   struct SystemType2 : public ecs::SystemType<SystemType2> {
     SystemType2() = default;
-    void Update() override { int a; }
-    void PreUpdate() override { int b; }
+    void Update() override {
+      int a;
+    }
+    void PreUpdate() override {
+      int b;
+    }
 
     int param1;
     double param2;
