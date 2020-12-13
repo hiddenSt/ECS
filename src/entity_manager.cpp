@@ -1,5 +1,7 @@
 #include "entity_manager.hpp"
 
+ecs::EntityManager* ecs::EntityManager::instance_ = nullptr;
+
 ecs::EntityManager& ecs::EntityManager::Instance() {
   return *instance_;
 }

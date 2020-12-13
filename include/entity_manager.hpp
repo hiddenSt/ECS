@@ -22,8 +22,6 @@ class EntityManager {
   static EntityManager* instance_;
 };
 
-EntityManager* EntityManager::instance_ = nullptr;
-
 }  // namespace ecs
 
 #endif  // ECS_INCLUDE_ENTITY_MANAGER_HPP_
