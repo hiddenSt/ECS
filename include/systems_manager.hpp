@@ -13,9 +13,12 @@ class SystemsManager {
   static SystemsManager& Instance();
 
   static void Initialize();
+  static void Destroy();
+
 
   void AddSystem(System* system);
   void AddDependency(System* dependent, System* independent);
+  void SetUp();
   void PreUpdate();
   void Update();
   void PostUpdate();

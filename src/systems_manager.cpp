@@ -34,6 +34,12 @@ void ecs::SystemsManager::AddDependency(System* dependent, System* independent) 
   dependency_graph_[dependent->GetSystemTypeId()][independent->GetSystemTypeId()] = 1;
 }
 
+void ecs::SystemsManager::SetUp() {
+  FindTopologicalOrder();
+  for (auto system : systems_topological_order_) {
+    system->SetUp();
+  }
+}
 
 void ecs::SystemsManager::FindTopologicalOrder() {
   std::vector<char> color(kNumberOfSystemTypes, 'w');
@@ -75,3 +81,12 @@ void ecs::SystemsManager::PostUpdate() {
     system->PostUpdate();
   }
 }
+
+void ecs::SystemsManager::Destroy() {
+  //for (auto system : instance_->systems_) {
+    //system->ShutDown();
+  //}
+  //instance_->~SystemsManager();
+  instance_ = nullptr;
+}
+

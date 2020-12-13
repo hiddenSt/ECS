@@ -10,7 +10,7 @@ class SystemsManagerTest : public ::testing::Test {
   }
 
   void TearDown() override {
-
+    ecs::SystemsManager::Destroy();
   }
 
   struct System1 : public ecs::SystemType<System1> {
@@ -57,6 +57,8 @@ TEST_F(SystemsManagerTest, FindsTopoligicalOrder) {
   ecs::SystemsManager::Instance().AddSystem(system_3);
   ecs::SystemsManager::Instance().AddDependency(system_1, system_2);
   ecs::SystemsManager::Instance().AddDependency(system_2, system_3);
+  ecs::SystemsManager::Instance().SetUp();
+  ecs::SystemsManager::Instance().Update();
 
   ASSERT_EQ(order[0], 3);
   ASSERT_EQ(order[1], 2);
