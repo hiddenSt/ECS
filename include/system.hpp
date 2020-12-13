@@ -14,12 +14,16 @@ class System {
 
   virtual SystemTypeId GetSystemTypeId() const noexcept = 0;
 
-  virtual void SetUp() {}
-  virtual void ShutDown() {}
-  virtual void Update() {}
-  virtual void PreUpdate() {}
-  virtual void PostUpdate() {}
-
+  virtual void SetUp() {
+  }
+  virtual void ShutDown() {
+  }
+  virtual void Update() {
+  }
+  virtual void PreUpdate() {
+  }
+  virtual void PostUpdate() {
+  }
 
   static std::size_t systems_types_counter_;
 };

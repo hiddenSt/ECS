@@ -7,7 +7,7 @@ ecs::ComponentsManager::ComponentsManager(const size_t& number_of_components_typ
 }
 
 void ecs::ComponentsManager::Initialize(unsigned char* memory_ptr,
-                                   const size_t& number_of_components_types) {
+                                        const size_t& number_of_components_types) {
   if (instance_ != nullptr) {
     return;
   }

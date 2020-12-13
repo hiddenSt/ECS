@@ -71,7 +71,6 @@ void ComponentsManager::RemoveComponent(const EntityId& entity_id) {
   components_types_containers_[kStaticGetComponentTypeId - 1]->RemoveComponent(entity_id);
 }
 
-
 template <typename T>
 ComponentTypeIterator<T>* ComponentsManager::GetComponentsIterator() {
   const ComponentTypeId kGetComponentTypeId = T::StaticGetComponentTypeId();

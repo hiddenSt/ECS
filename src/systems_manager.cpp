@@ -14,8 +14,8 @@ ecs::SystemsManager::SystemsManager(std::size_t& number_of_system_types)
     : kNumberOfSystemTypes(number_of_system_types),
       systems_(number_of_system_types, nullptr),
       systems_topological_order_(),
-      dependency_graph_(std::vector<std::vector<std::size_t>>(number_of_system_types,
-                                                              std::vector<std::size_t>(number_of_system_types, 0))) {
+      dependency_graph_(std::vector<std::vector<std::size_t>>(
+          number_of_system_types, std::vector<std::size_t>(number_of_system_types, 0))) {
 }
 
 ecs::SystemsManager& ecs::SystemsManager::Instance() {
@@ -83,10 +83,9 @@ void ecs::SystemsManager::PostUpdate() {
 }
 
 void ecs::SystemsManager::Destroy() {
-  //for (auto system : instance_->systems_) {
-    //system->ShutDown();
+  // for (auto system : instance_->systems_) {
+  // system->ShutDown();
   //}
-  //instance_->~SystemsManager();
+  // instance_->~SystemsManager();
   instance_ = nullptr;
 }
-

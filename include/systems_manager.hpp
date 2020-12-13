@@ -1,8 +1,8 @@
 #ifndef ECS_INCLUDE_SYSTEMS_MANAGER_HPP_
 #define ECS_INCLUDE_SYSTEMS_MANAGER_HPP_
 
-#include <vector>
 #include <stdexcept>
+#include <vector>
 
 #include "system.hpp"
 
@@ -14,7 +14,6 @@ class SystemsManager {
 
   static void Initialize();
   static void Destroy();
-
 
   void AddSystem(System* system);
   void AddDependency(System* dependent, System* independent);
