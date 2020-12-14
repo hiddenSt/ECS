@@ -35,19 +35,13 @@ class SystemsManagerTest : public ::testing::Test {
     System3(std::vector<std::size_t>& vec) : order_3(vec) {
     }
     void Update() override {
-      order_3.push_back(2);
+      order_3.push_back(3);
     }
     std::vector<std::size_t>& order_3;
   };
 
   std::vector<std::size_t> order;
 };
-
-TEST_F(SystemsManagerTest, AddSystem) {
-}
-
-TEST_F(SystemsManagerTest, AddDependency) {
-}
 
 TEST_F(SystemsManagerTest, FindsTopoligicalOrder) {
   System1* system_1 = new System1(order);

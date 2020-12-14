@@ -23,11 +23,11 @@ class SystemsManager {
   void PostUpdate();
 
  private:
-  explicit SystemsManager(std::size_t& number_of_system_types);
+  explicit SystemsManager(const std::size_t& number_of_system_types);
   explicit SystemsManager(const SystemsManager& other) = delete;
 
   void FindTopologicalOrder();
-  void Dfs(std::vector<char> color, std::size_t source);
+  void Dfs(std::vector<char>& color, std::size_t& source);
 
   static SystemsManager* instance_;
 
