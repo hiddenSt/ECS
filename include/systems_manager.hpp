@@ -27,7 +27,7 @@ class SystemsManager {
   SystemsManager& operator=(SystemsManager&& other) = delete;
 
  private:
-  const std::size_t kNumberOfSystemTypes;
+  const std::size_t kNumberOfSystemTypes_;
 
   explicit SystemsManager(const std::size_t& number_of_system_types);
   ~SystemsManager() = default;

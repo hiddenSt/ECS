@@ -18,7 +18,7 @@ class ComponentsContainer {
   virtual ComponentsIterator* GetComponentsIterator() = 0;
 
  protected:
-  const ComponentTypeId COMPONENT_TYPE_ID_;
+  const ComponentTypeId kComponentTypeId_;
 };
 
 }  // namespace ecs

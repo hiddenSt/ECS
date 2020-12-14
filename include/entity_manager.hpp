@@ -18,7 +18,6 @@ class EntityManager {
 
   EntitysIdContainer& entitys_id_container_;
   std::size_t entitys_counter_;
-
   static EntityManager* instance_;
 };
 

@@ -37,7 +37,6 @@ class ComponentsManager {
   ~ComponentsManager() = default;
 
   static ComponentsManager* instance_;
-
   std::vector<ComponentsContainer*> components_types_containers_;
 };
 

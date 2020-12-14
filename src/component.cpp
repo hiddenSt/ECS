@@ -1,6 +1,6 @@
 #include "component.hpp"
 
-std::size_t ecs::Component::components_types_counter = 0;
+std::size_t ecs::Component::components_types_counter_ = 0;
 
 ecs::EntityId ecs::Component::GetEntityId() const noexcept {
   return entity_id_;
@@ -14,5 +14,5 @@ ecs::Component::Component() noexcept : entity_id_(0) {
 }
 
 std::size_t ecs::Component::GetComponentsTypesCount() {
-  return components_types_counter;
+  return components_types_counter_;
 }

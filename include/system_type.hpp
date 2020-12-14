@@ -14,20 +14,20 @@ class SystemType : public System {
   SystemTypeId GetSystemTypeId() const noexcept override;
 
  private:
-  static const SystemTypeId kSystemTypeId;
+  static const SystemTypeId kSystemTypeId_;
 };
 
 template <typename T>
-const SystemTypeId SystemType<T>::kSystemTypeId = System::SetSystemTypeId<T>();
+const SystemTypeId SystemType<T>::kSystemTypeId_ = System::SetSystemTypeId<T>();
 
 template <typename T>
 SystemTypeId SystemType<T>::StaticGetSystemTypeId() {
-  return kSystemTypeId;
+  return kSystemTypeId_;
 }
 
 template <typename T>
 SystemTypeId SystemType<T>::GetSystemTypeId() const noexcept {
-  return kSystemTypeId;
+  return kSystemTypeId_;
 }
 
 }  // namespace ecs

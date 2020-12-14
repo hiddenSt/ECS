@@ -30,7 +30,6 @@ class Engine {
   Engine() = default;
 
   static Engine* instance_;
-
   ComponentsManager& components_manager_;
   EntityManager& entity_manager_;
   SystemsManager& system_manager_;

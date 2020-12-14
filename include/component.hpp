@@ -19,14 +19,13 @@ class Component {
   static std::size_t GetComponentsTypesCount();
 
  private:
-  static std::size_t components_types_counter;
-
+  static std::size_t components_types_counter_;
   EntityId entity_id_;
 };
 
 template <typename ConcreteComponentType>
 ComponentTypeId ecs::Component::SetComponentTypeId() {
-  static ComponentTypeId new_type_id = ++components_types_counter;
+  static ComponentTypeId new_type_id = ++components_types_counter_;
   return new_type_id;
 }
 

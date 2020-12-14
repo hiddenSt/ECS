@@ -21,7 +21,7 @@ void ecs::SystemsManager::Destroy() {
 }
 
 ecs::SystemsManager::SystemsManager(const std::size_t& number_of_system_types)
-    : kNumberOfSystemTypes(number_of_system_types),
+    : kNumberOfSystemTypes_(number_of_system_types),
       systems_(number_of_system_types, nullptr),
       systems_topological_order_(),
       dependency_graph_(std::vector<std::vector<std::size_t>>(
@@ -54,7 +54,7 @@ void ecs::SystemsManager::SetUp() {
 }
 
 void ecs::SystemsManager::FindTopologicalOrder() {
-  std::vector<char> color(kNumberOfSystemTypes, 'w');
+  std::vector<char> color(kNumberOfSystemTypes_, 'w');
   for (std::size_t i = 0; i < color.size(); ++i) {
     if (color[i] == 'w') {
       Dfs(color, i);
@@ -65,7 +65,7 @@ void ecs::SystemsManager::FindTopologicalOrder() {
 void ecs::SystemsManager::Dfs(std::vector<char>& color, std::size_t& source) {
   color[source] = 'g';
 
-  for (std::size_t i = 0; i < kNumberOfSystemTypes; ++i) {
+  for (std::size_t i = 0; i < kNumberOfSystemTypes_; ++i) {
     if (dependency_graph_[source][i] == 1 && color[i] == 'w') {
       Dfs(color, i);
     } else if (color[i] == 'g' && dependency_graph_[source][i] == 1) {
