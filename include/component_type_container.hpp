@@ -74,7 +74,6 @@ Component* ComponentTypeContainer<T, Alloc>::AddComponent(const EntityId& entity
 
 template <typename T, typename Alloc>
 ComponentTypeContainer<T, Alloc>::~ComponentTypeContainer() {
-
 }
 
 }  // namespace ecs

@@ -26,14 +26,14 @@ ecs::ComponentsManager& ecs::ComponentsManager::Instance() {
 }
 
 void ecs::ComponentsManager::Destroy() {
-  for (auto component_type_container : instance_->components_types_containers_) {
+  /* for (auto component_type_container : instance_->components_types_containers_) {
     component_type_container->~ComponentsContainer();
-  }
+  } */
   instance_->~ComponentsManager();
   instance_ = nullptr;
 }
 
-void ecs::ComponentsManager::AddComponentContainer(ComponentsContainer* components_container) {
+void ecs::ComponentsManager::AddComponentsContainer(ComponentsContainer* components_container) {
   const ComponentTypeId kComponentTypeId = components_container->GetComponentTypeId();
   components_types_containers_[kComponentTypeId - 1] = components_container;
 }

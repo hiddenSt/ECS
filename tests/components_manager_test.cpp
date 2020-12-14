@@ -27,13 +27,11 @@ class ComponentsManagerTest : public ::testing::Test {
 
     auto* memory = new unsigned char[sizeof(ecs::ComponentsManager)];
     ecs::ComponentsManager::Initialize(memory, ecs::Component::GetComponentsTypesCount());
-    ecs::ComponentsManager::Instance().AddComponentContainer(component_type1_container_);
-    ecs::ComponentsManager::Instance().AddComponentContainer(component_type2_container_);
+    ecs::ComponentsManager::Instance().AddComponentsContainer(component_type1_container_);
+    ecs::ComponentsManager::Instance().AddComponentsContainer(component_type2_container_);
   }
 
   void TearDown() override {
-    delete component_type2_container_;
-    delete component_type1_container_;
     ecs::ComponentsManager::Destroy();
   }
 

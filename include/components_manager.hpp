@@ -20,7 +20,7 @@ class ComponentsManager {
   ComponentsManager& operator=(ComponentsManager&& other) = delete;
   ComponentsManager& operator=(const ComponentsManager& other) = delete;
 
-  void AddComponentContainer(ComponentsContainer* components_container);
+  void AddComponentsContainer(ComponentsContainer* components_container);
   template <typename T, typename... Args>
   T* AddComponent(const EntityId& entity_id, Args&&... args);
   template <typename T>
