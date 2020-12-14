@@ -26,6 +26,9 @@ ecs::ComponentsManager& ecs::ComponentsManager::Instance() {
 }
 
 void ecs::ComponentsManager::Destroy() {
+  for (auto component_type_container : instance_->components_types_containers_) {
+    component_type_container->~ComponentsContainer();
+  }
   instance_->~ComponentsManager();
   instance_ = nullptr;
 }

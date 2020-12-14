@@ -10,6 +10,16 @@ void ecs::SystemsManager::Initialize() {
   instance_ = new SystemsManager(number_of_system_types);
 }
 
+void ecs::SystemsManager::Destroy() {
+  for (auto system : instance_->systems_) {
+    if (system != nullptr) {
+      system->ShutDown();
+    }
+  }
+  instance_->~SystemsManager();
+  instance_ = nullptr;
+}
+
 ecs::SystemsManager::SystemsManager(const std::size_t& number_of_system_types)
     : kNumberOfSystemTypes(number_of_system_types),
       systems_(number_of_system_types, nullptr),
@@ -88,12 +98,4 @@ void ecs::SystemsManager::PostUpdate() {
       system->PostUpdate();
     }
   }
-}
-
-void ecs::SystemsManager::Destroy() {
-  // for (auto system : instance_->systems_) {
-  // system->ShutDown();
-  //}
-  // instance_->~SystemsManager();
-  instance_ = nullptr;
 }

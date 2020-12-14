@@ -15,6 +15,11 @@ class ComponentsManager {
   static ComponentsManager& Instance();
   static void Destroy();
 
+  explicit ComponentsManager(ComponentsManager&& other) = delete;
+  explicit ComponentsManager(const ComponentsManager& other) = delete;
+  ComponentsManager& operator=(ComponentsManager&& other) = delete;
+  ComponentsManager& operator=(const ComponentsManager& other) = delete;
+
   void AddComponentContainer(ComponentsContainer* components_container);
   template <typename T, typename... Args>
   T* AddComponent(const EntityId& entity_id, Args&&... args);

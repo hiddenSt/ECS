@@ -14,6 +14,7 @@ template <typename T, typename Alloc>
 class ComponentTypeContainer : public ComponentsContainer {
  public:
   explicit ComponentTypeContainer(Alloc& alloc, ComponentsLookUpTable& components_look_up_table);
+  ~ComponentTypeContainer() override;
 
   Component* AddComponent(const EntityId& entity_id) override;
   Component* GetComponent(const EntityId& entity_id) override;
@@ -69,6 +70,11 @@ Component* ComponentTypeContainer<T, Alloc>::AddComponent(const EntityId& entity
   auto new_comp = static_cast<T*>(new_component_memory);
   entity_lookup_table_.Insert(entity_id, new_comp);
   return static_cast<Component*>(new_comp);
+}
+
+template <typename T, typename Alloc>
+ComponentTypeContainer<T, Alloc>::~ComponentTypeContainer() {
+
 }
 
 }  // namespace ecs

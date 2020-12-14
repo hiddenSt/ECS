@@ -11,7 +11,6 @@ namespace ecs {
 class SystemsManager {
  public:
   static SystemsManager& Instance();
-
   static void Initialize();
   static void Destroy();
 
@@ -22,17 +21,21 @@ class SystemsManager {
   void Update();
   void PostUpdate();
 
- private:
-  explicit SystemsManager(const std::size_t& number_of_system_types);
   explicit SystemsManager(const SystemsManager& other) = delete;
+  explicit SystemsManager(SystemsManager&& other) = delete;
+  SystemsManager& operator=(const SystemsManager& other) = delete;
+  SystemsManager& operator=(SystemsManager&& other) = delete;
+
+ private:
+  const std::size_t kNumberOfSystemTypes;
+
+  explicit SystemsManager(const std::size_t& number_of_system_types);
+  ~SystemsManager() = default;
 
   void FindTopologicalOrder();
   void Dfs(std::vector<char>& color, std::size_t& source);
 
   static SystemsManager* instance_;
-
-  const std::size_t kNumberOfSystemTypes;
-
   std::vector<std::vector<size_t>> dependency_graph_;
   std::vector<System*> systems_;
   std::vector<System*> systems_topological_order_;
