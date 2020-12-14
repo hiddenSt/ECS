@@ -8,6 +8,7 @@ namespace ecs {
 class Component {
  public:
   explicit Component() noexcept;
+  virtual ~Component() = default;
 
   void SetEntityId(const EntityId& entity_id) noexcept;
   EntityId GetEntityId() const noexcept;

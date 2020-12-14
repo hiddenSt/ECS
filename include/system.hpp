@@ -7,13 +7,19 @@ namespace ecs {
 
 class System {
  public:
-  static std::size_t GetSystemTypesCount();
+  virtual ~System() = default;
 
+  System() = default;
+
+  explicit System(const System& other) = delete;
+  explicit System(System&& other) = delete;
+  System& operator=(const System& other) = delete;
+  System& operator=(System&& other) = delete;
+
+  static std::size_t GetSystemTypesCount();
   template <typename ConcreteSystem>
   static SystemTypeId SetSystemTypeId();
-
   virtual SystemTypeId GetSystemTypeId() const noexcept = 0;
-
   virtual void SetUp() {
   }
   virtual void ShutDown() {
