@@ -43,10 +43,10 @@ class SystemsManagerTest : public ::testing::Test {
   std::vector<std::size_t> order;
 };
 
-TEST_F(SystemsManagerTest, FindsTopoligicalOrder) {
-  System1* system_1 = new System1(order);
-  System2* system_2 = new System2(order);
-  System3* system_3 = new System3(order);
+TEST_F(SystemsManagerTest, SystemsInokesInTopologicalOrder) {
+  auto* system_1 = new System1(order);
+  auto* system_2 = new System2(order);
+  auto* system_3 = new System3(order);
   ecs::SystemsManager::Instance().AddSystem(system_1);
   ecs::SystemsManager::Instance().AddSystem(system_2);
   ecs::SystemsManager::Instance().AddSystem(system_3);
@@ -60,8 +60,22 @@ TEST_F(SystemsManagerTest, FindsTopoligicalOrder) {
   ASSERT_EQ(order[2], 1);
 }
 
-TEST_F(SystemsManagerTest, CallingSystemsMethodsInTopologicalOrder) {
+TEST_F(SystemsManagerTest, ThrowsExceptionIfSystemSelfDependent) {
+  auto* system_1 = new System1(order);
+  ecs::SystemsManager::Instance().AddSystem(system_1);
+  ecs::SystemsManager::Instance().AddDependency(system_1, system_1);
+  ASSERT_THROW(ecs::SystemsManager::Instance().SetUp(), std::logic_error);
 }
 
 TEST_F(SystemsManagerTest, ThrowsExceptionIfSystemsDependencyHasCycle) {
+  auto* system_1 = new System1(order);
+  auto* system_2 = new System2(order);
+  auto* system_3 = new System3(order);
+  ecs::SystemsManager::Instance().AddSystem(system_1);
+  ecs::SystemsManager::Instance().AddSystem(system_2);
+  ecs::SystemsManager::Instance().AddSystem(system_3);
+  ecs::SystemsManager::Instance().AddDependency(system_1, system_2);
+  ecs::SystemsManager::Instance().AddDependency(system_2, system_3);
+  ecs::SystemsManager::Instance().AddDependency(system_3, system_1);
+  ASSERT_THROW(ecs::SystemsManager::Instance().SetUp(), std::logic_error);
 }
