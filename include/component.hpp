@@ -10,13 +10,12 @@ class Component {
   explicit Component() noexcept;
   virtual ~Component() = default;
 
-  void SetEntityId(const EntityId& entity_id) noexcept;
-  EntityId GetEntityId() const noexcept;
-  virtual ComponentTypeId GetComponentTypeId() const noexcept = 0;
-
   template <typename ConcreteComponentType>
   static ComponentTypeId SetComponentTypeId();
   static std::size_t GetComponentsTypesCount();
+  void SetEntityId(const EntityId& entity_id) noexcept;
+  virtual ComponentTypeId GetComponentTypeId() const noexcept = 0;
+  EntityId GetEntityId() const noexcept;
 
  private:
   static std::size_t components_types_counter_;

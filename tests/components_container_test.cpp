@@ -7,9 +7,7 @@
 class ComponentsContainerTest : public ::testing::Test {
  protected:
   void SetUp() override {
-    allocated_memory_ = new unsigned char[sizeof(ComponentExample) * 2];
-    pool_allocator_ = new allocators::PoolAllocator(allocated_memory_, sizeof(ComponentExample) * 2,
-                                                    sizeof(ComponentExample));
+    SetUpMemory();
     map_look_up_table_ = new ecs::util::MapLookUpTable();
     components_container_ =
         new ecs::ComponentTypeContainer<ComponentExample, allocators::PoolAllocator>(
@@ -17,6 +15,13 @@ class ComponentsContainerTest : public ::testing::Test {
   }
 
   void TearDown() override {
+
+  }
+
+  void SetUpMemory() {
+    allocated_memory_ = new unsigned char[sizeof(ComponentExample) * 2];
+    pool_allocator_ = new allocators::PoolAllocator(allocated_memory_, sizeof(ComponentExample) * 2,
+                                                    sizeof(ComponentExample));
   }
 
   struct ComponentExample : public ecs::ComponentType<ComponentExample> {
@@ -28,7 +33,6 @@ class ComponentsContainerTest : public ::testing::Test {
   };
 
   ecs::ComponentTypeContainer<ComponentExample, allocators::PoolAllocator>* components_container_;
-
   unsigned char* allocated_memory_;
   allocators::PoolAllocator* pool_allocator_;
   ecs::util::MapLookUpTable* map_look_up_table_;

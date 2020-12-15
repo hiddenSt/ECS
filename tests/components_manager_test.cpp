@@ -10,14 +10,10 @@
 class ComponentsManagerTest : public ::testing::Test {
  protected:
   void SetUp() override {
-    memory_arena_1_ = new unsigned char[sizeof(ComponentType1) * 2];
-    memory_arena_2_ = new unsigned char[sizeof(ComponentType2) * 2];
-    pool_allocator_1_ = new allocators::PoolAllocator(memory_arena_1_, sizeof(ComponentType1) * 2,
-                                                      sizeof(ComponentType1));
-    pool_allocator_2_ = new allocators::PoolAllocator(memory_arena_2_, sizeof(ComponentType2) * 2,
-                                                      sizeof(ComponentType2));
+    SetUpMemory();
     map_look_up_table1_ = new ecs::util::MapLookUpTable();
     map_look_up_table2_ = new ecs::util::MapLookUpTable();
+
     component_type1_container_ =
         new ecs::ComponentTypeContainer<ComponentType1, allocators::PoolAllocator>(
             *pool_allocator_1_, *map_look_up_table1_);
@@ -33,6 +29,15 @@ class ComponentsManagerTest : public ::testing::Test {
 
   void TearDown() override {
     ecs::ComponentsManager::Destroy();
+  }
+
+  void SetUpMemory() {
+    memory_arena_1_ = new unsigned char[sizeof(ComponentType1) * 2];
+    memory_arena_2_ = new unsigned char[sizeof(ComponentType2) * 2];
+    pool_allocator_1_ = new allocators::PoolAllocator(memory_arena_1_, sizeof(ComponentType1) * 2,
+                                                      sizeof(ComponentType1));
+    pool_allocator_2_ = new allocators::PoolAllocator(memory_arena_2_, sizeof(ComponentType2) * 2,
+                                                      sizeof(ComponentType2));
   }
 
   struct ComponentType1 : public ecs::ComponentType<ComponentType1> {

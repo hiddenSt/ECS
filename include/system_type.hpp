@@ -9,9 +9,8 @@ namespace ecs {
 template <typename T>
 class SystemType : public System {
  public:
-  static SystemTypeId StaticGetSystemTypeId();
-
   SystemTypeId GetSystemTypeId() const noexcept override;
+  static SystemTypeId StaticGetSystemTypeId();
 
  private:
   static const SystemTypeId kSystemTypeId_;

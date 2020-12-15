@@ -47,6 +47,7 @@ TEST_F(SystemsManagerTest, SystemsInokesInTopologicalOrder) {
   auto* system_1 = new System1(order);
   auto* system_2 = new System2(order);
   auto* system_3 = new System3(order);
+
   ecs::SystemsManager::Instance().AddSystem(system_1);
   ecs::SystemsManager::Instance().AddSystem(system_2);
   ecs::SystemsManager::Instance().AddSystem(system_3);
@@ -71,11 +72,13 @@ TEST_F(SystemsManagerTest, ThrowsExceptionIfSystemsDependencyHasCycle) {
   auto* system_1 = new System1(order);
   auto* system_2 = new System2(order);
   auto* system_3 = new System3(order);
+
   ecs::SystemsManager::Instance().AddSystem(system_1);
   ecs::SystemsManager::Instance().AddSystem(system_2);
   ecs::SystemsManager::Instance().AddSystem(system_3);
   ecs::SystemsManager::Instance().AddDependency(system_1, system_2);
   ecs::SystemsManager::Instance().AddDependency(system_2, system_3);
   ecs::SystemsManager::Instance().AddDependency(system_3, system_1);
+
   ASSERT_THROW(ecs::SystemsManager::Instance().SetUp(), std::logic_error);
 }

@@ -6,7 +6,7 @@ void ecs::SystemsManager::Initialize() {
   if (instance_ != nullptr) {
     throw std::logic_error("System already initialized.");
   }
-  std::size_t number_of_system_types = System::systems_types_counter_;
+  std::size_t number_of_system_types = System::GetSystemTypesCount();
   instance_ = new SystemsManager(number_of_system_types);
 }
 

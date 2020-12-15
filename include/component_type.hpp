@@ -9,7 +9,6 @@ template <typename ConcreteComponentType>
 class ComponentType : public Component {
  public:
   static ComponentTypeId StaticGetComponentTypeId() noexcept;
-
   ComponentTypeId GetComponentTypeId() const noexcept override;
 
  private:

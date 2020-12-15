@@ -3,12 +3,6 @@
 
 class SystemTest : public ::testing::Test {
  protected:
-  void SetUp() override {
-  }
-
-  void TearDown() override {
-  }
-
   struct SystemType1 : public ecs::SystemType<SystemType1> {
     SystemType1() = default;
     void Update() override {
