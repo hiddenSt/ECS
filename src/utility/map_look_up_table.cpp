@@ -1,4 +1,5 @@
 #include "utility/map_look_up_table.hpp"
+#include "utility/map_components_iterator.hpp"
 
 void ecs::util::MapLookUpTable::Insert(const ecs::EntityId &entity_id, ecs::Component *component) {
   look_up_table_.insert(std::make_pair(entity_id, component));
@@ -16,6 +17,7 @@ ecs::Component *ecs::util::MapLookUpTable::Find(const ecs::EntityId &entity_id) 
   return search->second;
 }
 
-ecs::ComponentsIterator *ecs::util::MapLookUpTable::GetIterator() {
-  return nullptr;
+ecs::ComponentsIterator* ecs::util::MapLookUpTable::GetIterator() {
+  ComponentsIterator* iterator = new MapComponentsIterator(look_up_table_);
+  return iterator;
 }

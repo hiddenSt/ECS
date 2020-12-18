@@ -18,6 +18,7 @@ class MapComponentsIterator : public ComponentsIterator {
 
  private:
   std::map<EntityId, Component*>& map_;
+  std::map<EntityId, Component*>::iterator iterator_;
 };
 
 }  // namespace util
