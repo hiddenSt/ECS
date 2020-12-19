@@ -1,23 +1,23 @@
 #ifndef ECS_INCLUDE_ENTITY_MANAGER_HPP_
 #define ECS_INCLUDE_ENTITY_MANAGER_HPP_
 
-#include "entitys_id_container.hpp"
+#include "entities_id_container.hpp"
 
 namespace ecs {
 
 class EntityManager {
  public:
   static EntityManager& Instance();
-  static EntityManager& Create(EntitysIdContainer& entitys_id_container);
+  static EntityManager& Create(EntitiesIdContainer& entities_id_container);
 
   EntityId CreateEntity();
   void RemoveEntity(const EntityId& entity_id);
 
  private:
-  EntityManager(EntitysIdContainer& entitys_id_container);
+  EntityManager(EntitiesIdContainer& entities_id_container);
 
-  EntitysIdContainer& entitys_id_container_;
-  std::size_t entitys_counter_;
+  EntitiesIdContainer& entities_id_container_;
+  std::size_t entities_counter_;
   static EntityManager* instance_;
 };
 

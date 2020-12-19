@@ -23,7 +23,7 @@ set(HEADERS include/component.hpp
             include/components_look_up_table.hpp
             include/utility/map_look_up_table.hpp
             include/entity_manager.hpp
-            include/entitys_id_container.hpp
+        include/entities_id_container.hpp
             include/engine.hpp
             include/components_iterator.hpp
             include/utility/map_components_iterator.hpp)
