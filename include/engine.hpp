@@ -48,7 +48,7 @@ void Engine::RemoveComponent(const EntityId& entity_id) {
 
 template <typename T>
 T Engine::GetComponent(const EntityId& entity_id) {
-  return components_manager_.GetComponent<T>(entity_id)>();
+  return components_manager_.GetComponent<T>(entity_id);
 }
 
 }  // namespace ecs
