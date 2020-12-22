@@ -1,4 +1,6 @@
 #include "engine.hpp"
+#include "component.hpp"
+#include "stack_allocator.hpp"
 
 #include <stdexcept>
 
@@ -12,21 +14,25 @@ ecs::Engine& ecs::Engine::Instance() {
   return *instance_;
 }
 
-void ecs::Engine::Initialize() {
+void ecs::Engine::Initialize(std::size_t max_components_per_types) {
+  for (std::size_t i = 0; i < Component::GetComponentsTypesCount(); ++i) {
+  }
 }
 
+ecs::Engine::Engine() : memory_size_bytes_(0) {}
+
 ecs::EntityId ecs::Engine::CreateEntity() {
-  return entity_manager_.CreateEntity();
+  return EntitiesManager::Instance().CreateEntity();
 }
 
 void ecs::Engine::MakeTic() {
-  system_manager_.PreUpdate();
-  system_manager_.Update();
-  system_manager_.PostUpdate();
+  SystemsManager::Instance().PreUpdate();
+  SystemsManager::Instance().Update();
+  SystemsManager::Instance().PostUpdate();
 }
 
 void ecs::Engine::SetUp() {
-  system_manager_.SetUp();
+  SystemsManager::Instance().SetUp();
 }
 
 void ecs::Engine::ShutDown() {

@@ -5,7 +5,7 @@ project(ECS)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAG} -Wall -Wextra")
 
-include_directories(include)
+include_directories(include ${Allocators_SOURCE_DIR}/include)
 
 add_subdirectory(libs)
 add_subdirectory(tests)
@@ -22,7 +22,7 @@ set(HEADERS include/component.hpp
             include/system_type.hpp
             include/components_look_up_table.hpp
             include/utility/map_look_up_table.hpp
-            include/entity_manager.hpp
+            include/entities_manager.hpp
             include/entities_id_container.hpp
             include/engine.hpp
             include/components_iterator.hpp
@@ -32,7 +32,7 @@ set(SOURCES
             src/component.cpp
             src/components_container.cpp
             src/utility/map_look_up_table.cpp
-            src/entity_manager.cpp
+            src/entities_manager.cpp
             src/engine.cpp
             src/utility/map_components_iterator.cpp
             src/system.cpp
