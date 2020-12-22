@@ -1,7 +1,6 @@
-#include "gtest/gtest.h"
-
 #include "component_type.hpp"
 #include "component_type_container.hpp"
+#include "gtest/gtest.h"
 #include "pool_allocator.hpp"
 #include "utility/map_look_up_table.hpp"
 
@@ -16,7 +15,6 @@ class ComponentsContainerTest : public ::testing::Test {
   }
 
   void TearDown() override {
-
   }
 
   void SetUpMemory() {

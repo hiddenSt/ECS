@@ -1,4 +1,5 @@
 #include "utility/set_entities_id_container.hpp"
+
 #include <stdexcept>
 
 void ecs::util::SetEntitiesIdContainer::Insert(const ecs::EntityId& entity_id) {

@@ -1,8 +1,9 @@
 #include "engine.hpp"
-#include "component.hpp"
-#include "stack_allocator.hpp"
 
 #include <stdexcept>
+
+#include "component.hpp"
+#include "stack_allocator.hpp"
 
 ecs::Engine* ecs::Engine::instance_ = nullptr;
 
@@ -15,11 +16,16 @@ ecs::Engine& ecs::Engine::Instance() {
 }
 
 void ecs::Engine::Initialize(std::size_t max_components_per_types) {
-  for (std::size_t i = 0; i < Component::GetComponentsTypesCount(); ++i) {
-  }
 }
 
-ecs::Engine::Engine() : memory_size_bytes_(0) {}
+ecs::Engine::Engine(unsigned char* memory_arena, const uint64_t& memory_size_bytes,
+                    const std::size_t& max_components_per_type)
+    : memory_size_bytes_(memory_size_bytes),
+      max_components_per_type_(max_components_per_type),
+      allocator_(memory_arena, memory_size_bytes),
+      pool_allocators_(max_components_per_type, nullptr) {
+
+}
 
 ecs::EntityId ecs::Engine::CreateEntity() {
   return EntitiesManager::Instance().CreateEntity();
@@ -37,4 +43,3 @@ void ecs::Engine::SetUp() {
 
 void ecs::Engine::ShutDown() {
 }
-

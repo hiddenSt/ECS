@@ -17,7 +17,6 @@ class EntitiesManagerTest : public ::testing::Test {
   ecs::util::SetEntitiesIdContainer* set_entities_id_container_;
 };
 
-
 TEST_F(EntitiesManagerTest, CreatesUniqueId) {
   ecs::EntityId id_1 = ecs::EntitiesManager::Instance().CreateEntity();
   ecs::EntityId id_2 = ecs::EntitiesManager::Instance().CreateEntity();

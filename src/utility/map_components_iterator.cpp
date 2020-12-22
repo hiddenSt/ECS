@@ -1,6 +1,7 @@
 #include "utility/map_components_iterator.hpp"
 
-ecs::util::MapComponentsIterator::MapComponentsIterator(std::map<EntityId, Component*>& map): map_(map) {
+ecs::util::MapComponentsIterator::MapComponentsIterator(std::map<EntityId, Component*>& map)
+    : map_(map) {
 }
 
 void ecs::util::MapComponentsIterator::First() {
@@ -18,5 +19,3 @@ bool ecs::util::MapComponentsIterator::IsDone() {
 ecs::Component* ecs::util::MapComponentsIterator::CurrentComponent() {
   return iterator_->second;
 }
-
-

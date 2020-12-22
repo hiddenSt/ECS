@@ -1,9 +1,8 @@
-#include "gtest/gtest.h"
-
 #include "component_type.hpp"
-#include "utility/map_look_up_table.hpp"
-#include "utility/map_components_iterator.hpp"
 #include "component_type_iterator.hpp"
+#include "gtest/gtest.h"
+#include "utility/map_components_iterator.hpp"
+#include "utility/map_look_up_table.hpp"
 
 class ComponentsIteratorTest : public ::testing::Test {
  protected:
@@ -18,9 +17,9 @@ class ComponentsIteratorTest : public ::testing::Test {
     type_iterator_ = new ecs::ComponentTypeIterator<ComponentT1>(iterator_);
   }
 
-
   struct ComponentT1 : public ecs::ComponentType<ComponentT1> {
-    explicit ComponentT1(int pa, float pb) : a(pa), b(pb) {}
+    explicit ComponentT1(int pa, float pb) : a(pa), b(pb) {
+    }
     int a;
     int b;
   };

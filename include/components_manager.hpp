@@ -43,6 +43,11 @@ class ComponentsManager {
 template <typename T, typename... Args>
 T* ComponentsManager::AddComponent(const EntityId& entity_id, Args&&... args) {
   const ComponentTypeId kGetComponentTypeId = T::StaticGetComponentTypeId();
+
+  if (components_types_containers_[kGetComponentTypeId - 1] == nullptr) {
+    return nullptr;
+  }
+
   Component* new_component =
       components_types_containers_[kGetComponentTypeId - 1]->AddComponent(entity_id);
   if (new_component == nullptr) {
@@ -56,6 +61,11 @@ T* ComponentsManager::AddComponent(const EntityId& entity_id, Args&&... args) {
 template <typename T>
 T* ComponentsManager::GetComponent(const EntityId& entity_id) {
   const ComponentTypeId kGetComponentTypeId = T::StaticGetComponentTypeId();
+
+  if (components_types_containers_[kGetComponentTypeId - 1] == nullptr) {
+    return nullptr;
+  }
+
   Component* requested_component =
       components_types_containers_[kGetComponentTypeId - 1]->GetComponent(entity_id);
   if (requested_component == nullptr) {
@@ -74,6 +84,11 @@ void ComponentsManager::RemoveComponent(const EntityId& entity_id) {
 template <typename T>
 ComponentTypeIterator<T>* ComponentsManager::GetComponentsIterator() {
   const ComponentTypeId kGetComponentTypeId = T::StaticGetComponentTypeId();
+
+  if (components_types_containers_[kGetComponentTypeId - 1] == nullptr) {
+    return nullptr;
+  }
+
   ComponentsIterator* iterator =
       components_types_containers_[kGetComponentTypeId]->GetComponentsIterator();
   ComponentTypeIterator<T>* component_type_iterator = new ComponentTypeIterator<T>(iterator);

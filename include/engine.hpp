@@ -1,8 +1,14 @@
 #ifndef ECS_INCLUDE_ENGINE_HPP_
 #define ECS_INCLUDE_ENGINE_HPP_
 
+#include <vector>
+
+#include "component_type.hpp"
 #include "components_manager.hpp"
 #include "entities_manager.hpp"
+#include "pool_allocator.hpp"
+#include "stack_allocator.hpp"
+#include "system_type.hpp"
 #include "systems_manager.hpp"
 
 namespace ecs {
@@ -28,15 +34,27 @@ class Engine {
   void ShutDown();
 
  private:
-  Engine();
+  Engine(unsigned char* memory_arena, const uint64_t& memory_size_bytes,
+         const std::size_t& max_components_per_type);
+
+  template <typename T>
+  void AddComponentTypeContainer();
 
   static Engine* instance_;
   uint64_t memory_size_bytes_;
+  std::size_t max_components_per_type_;
+  std::vector<allocators::PoolAllocator*> pool_allocators_;
+  std::vector<unsigned char*> allocated_memory_pointers_;
+  allocators::StackAllocator allocator_;
 };
 
 template <typename T, typename... Args>
 T* ecs::Engine::AddComponent(const ecs::EntityId& entity_id, Args&&... args) {
-  ComponentsManager::Instance().AddComponent<T>(entity_id, std::forward<Args>(args)...);
+  T* component =
+      ComponentsManager::Instance().AddComponent<T>(entity_id, std::forward<Args>(args)...);
+  if (component == nullptr) {
+    AddComponent<T>();
+  }
 }
 
 template <typename T>
@@ -47,6 +65,13 @@ void Engine::RemoveComponent(const EntityId& entity_id) {
 template <typename T>
 T Engine::GetComponent(const EntityId& entity_id) {
   return ComponentsManager::Instance().GetComponent<T>(entity_id);
+}
+
+template <typename T>
+void Engine::AddComponentTypeContainer() {
+  void* allocated_memory = allocator_.Allocate(sizeof(T)*max_components_per_type_, 1);
+  allocated_memory_pointers_.push_back(static_cast<unsigned char*>(allocated_memory));
+  auto* pool_allocator = new allocators::PoolAllocator();
 }
 
 void Engine::DestroyEntity(const EntityId& entity_id) {
