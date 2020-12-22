@@ -6,7 +6,7 @@ ecs::EntitiesManager& ecs::EntitiesManager::Instance() {
   return *instance_;
 }
 
-ecs::EntitiesManager& ecs::EntitiesManager::Create(
+ecs::EntitiesManager& ecs::EntitiesManager::Initialize(
     ecs::EntitiesIdContainer& entities_id_container) {
   if (instance_ == nullptr) {
     instance_ = new EntitiesManager(entities_id_container);

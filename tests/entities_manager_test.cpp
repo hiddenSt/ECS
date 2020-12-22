@@ -7,7 +7,7 @@ class EntitiesManagerTest : public ::testing::Test {
  protected:
   void SetUp() override {
     set_entities_id_container_ = new ecs::util::SetEntitiesIdContainer();
-    ecs::EntitiesManager::Create(*set_entities_id_container_);
+    ecs::EntitiesManager::Initialize(*set_entities_id_container_);
   }
 
   void TearDown() override {

@@ -10,6 +10,7 @@
 #include "stack_allocator.hpp"
 #include "system_type.hpp"
 #include "systems_manager.hpp"
+#include "utility/set_entities_id_container.hpp"
 
 namespace ecs {
 
@@ -45,8 +46,12 @@ class Engine {
   uint64_t memory_size_bytes_;
   std::size_t max_components_per_type_;
   std::vector<allocators::PoolAllocator*> pool_allocators_;
+  unsigned char* components_manager_memory_ptr_;
+  unsigned char* entities_manager_memory_ptr_;
+  unsigned char* systems_manager_memory_ptr_;
   std::vector<unsigned char*> allocated_memory_pointers_;
   allocators::StackAllocator allocator_;
+  util::SetEntitiesIdContainer* set_entities_id_container_;
 };
 
 template <typename T, typename... Args>
@@ -74,22 +79,21 @@ T Engine::GetComponent(const EntityId& entity_id) {
 
 template <typename T>
 void Engine::AddComponentTypeContainer() {
-  uint64_t memory_size_bytes = sizeof(T)*max_components_per_type_;
-  auto* allocated_memory = static_cast<unsigned char*>(allocator_.Allocate(memory_size_bytes, sizeof(T)));
+  uint64_t memory_size_bytes = sizeof(T) * max_components_per_type_;
+  auto* allocated_memory =
+      static_cast<unsigned char*>(allocator_.Allocate(memory_size_bytes, sizeof(T)));
 
   if (allocated_memory == nullptr) {
     throw std::bad_alloc();
   }
 
   allocated_memory_pointers_.push_back(allocated_memory);
-  auto* pool_allocator = new allocators::PoolAllocator(allocated_memory, memory_size_bytes, sizeof(T));
+  auto* pool_allocator =
+      new allocators::PoolAllocator(allocated_memory, memory_size_bytes, sizeof(T));
   pool_allocators_[T::StaticGetComponentTypeId()] = pool_allocator;
 }
 
-void Engine::DestroyEntity(const EntityId& entity_id) {
-  ComponentsManager::Instance().RemoveEntitiesComponents(entity_id);
-  EntitiesManager::Instance().RemoveEntity(entity_id);
-}
+
 
 }  // namespace ecs
 #endif  // ECS_INCLUDE_ENGINE_HPP_

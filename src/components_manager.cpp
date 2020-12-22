@@ -39,10 +39,9 @@ void ecs::ComponentsManager::AddComponentsContainer(ComponentsContainer* compone
 }
 
 void ecs::ComponentsManager::RemoveEntitiesComponents(const EntityId& entity_id) {
-  for (auto* container: components_types_containers_) {
+  for (auto* container : components_types_containers_) {
     if (container != nullptr && container->GetComponent(entity_id) != nullptr) {
       container->RemoveComponent(entity_id);
     }
   }
 }
-
