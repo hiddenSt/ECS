@@ -9,6 +9,7 @@ class EntitiesManager {
  public:
   static EntitiesManager& Instance();
   static EntitiesManager& Create(EntitiesIdContainer& entities_id_container);
+  static void Destroy();
 
   EntityId CreateEntity();
   void RemoveEntity(const EntityId& entity_id);

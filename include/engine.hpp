@@ -15,7 +15,8 @@ namespace ecs {
 
 class Engine {
  public:
-  static void Initialize(std::size_t max_components_per_type);
+  static void Initialize(unsigned char* memory_arena, const uint64_t& memory_size_bytes,
+                         const std::size_t& max_components_per_type);
   static Engine& Instance();
 
   template <typename T, typename... Args>
@@ -35,7 +36,7 @@ class Engine {
 
  private:
   Engine(unsigned char* memory_arena, const uint64_t& memory_size_bytes,
-         const std::size_t& max_components_per_type);
+         const std::size_t& max_components_per_type, const std::size_t& component_types_count);
 
   template <typename T>
   void AddComponentTypeContainer();
@@ -50,11 +51,12 @@ class Engine {
 
 template <typename T, typename... Args>
 T* ecs::Engine::AddComponent(const ecs::EntityId& entity_id, Args&&... args) {
+  if (pool_allocators_[T::StaticGetComponentTypeId()] == nullptr) {
+    AddComponentTypeContainer<T>();
+  }
   T* component =
       ComponentsManager::Instance().AddComponent<T>(entity_id, std::forward<Args>(args)...);
-  if (component == nullptr) {
-    AddComponent<T>();
-  }
+  return component;
 }
 
 template <typename T>
@@ -64,17 +66,29 @@ void Engine::RemoveComponent(const EntityId& entity_id) {
 
 template <typename T>
 T Engine::GetComponent(const EntityId& entity_id) {
+  if (pool_allocators_[T::StaticGetComponentTypeId()] == nullptr) {
+    AddComponentTypeContainer<T>();
+  }
   return ComponentsManager::Instance().GetComponent<T>(entity_id);
 }
 
 template <typename T>
 void Engine::AddComponentTypeContainer() {
-  void* allocated_memory = allocator_.Allocate(sizeof(T)*max_components_per_type_, 1);
-  allocated_memory_pointers_.push_back(static_cast<unsigned char*>(allocated_memory));
-  auto* pool_allocator = new allocators::PoolAllocator();
+  uint64_t memory_size_bytes = sizeof(T)*max_components_per_type_;
+  auto* allocated_memory = static_cast<unsigned char*>(allocator_.Allocate(memory_size_bytes, sizeof(T)));
+
+  if (allocated_memory == nullptr) {
+    throw std::bad_alloc();
+  }
+
+  allocated_memory_pointers_.push_back(allocated_memory);
+  auto* pool_allocator = new allocators::PoolAllocator(allocated_memory, memory_size_bytes, sizeof(T));
+  pool_allocators_[T::StaticGetComponentTypeId()] = pool_allocator;
 }
 
 void Engine::DestroyEntity(const EntityId& entity_id) {
+  ComponentsManager::Instance().RemoveEntitiesComponents(entity_id);
+  EntitiesManager::Instance().RemoveEntity(entity_id);
 }
 
 }  // namespace ecs

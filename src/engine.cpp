@@ -15,15 +15,18 @@ ecs::Engine& ecs::Engine::Instance() {
   return *instance_;
 }
 
-void ecs::Engine::Initialize(std::size_t max_components_per_types) {
+void ecs::Engine::Initialize(unsigned char* memory_arena, const uint64_t& memory_size_bytes,
+                             const std::size_t& max_components_per_type) {
+  std::size_t components_types_count = Component::GetComponentsTypesCount();
+  instance_ = new Engine(memory_arena, memory_size_bytes, max_components_per_type, components_types_count);
 }
 
 ecs::Engine::Engine(unsigned char* memory_arena, const uint64_t& memory_size_bytes,
-                    const std::size_t& max_components_per_type)
+                    const std::size_t& max_components_per_type, const std::size_t& component_types_count)
     : memory_size_bytes_(memory_size_bytes),
       max_components_per_type_(max_components_per_type),
       allocator_(memory_arena, memory_size_bytes),
-      pool_allocators_(max_components_per_type, nullptr) {
+      pool_allocators_(component_types_count, nullptr) {
 
 }
 
@@ -42,4 +45,7 @@ void ecs::Engine::SetUp() {
 }
 
 void ecs::Engine::ShutDown() {
+  SystemsManager::Destroy();
+  ComponentsManager::Destroy();
+  EntitiesManager::Destroy();
 }

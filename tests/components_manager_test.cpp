@@ -160,3 +160,17 @@ TEST_F(ComponentsManagerTest, WorksWithMultipleEntitys) {
   ASSERT_EQ(component_type_2->str, entity2_request->str);
   ASSERT_EQ(component_type_2->a, entity2_request->a);
 }
+
+TEST_F(ComponentsManagerTest, RemovesAllEntityComponents) {
+  auto* component_type_1 =
+      ecs::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 2, 2, 0.2);
+  auto* component_type_2 =
+      ecs::ComponentsManager::Instance().AddComponent<ComponentType2>(1, 2, "EntityId4Comp");
+  ASSERT_EQ(ecs::ComponentsManager::Instance().GetComponent<ComponentType1>(1), component_type_1);
+  ASSERT_EQ(ecs::ComponentsManager::Instance().GetComponent<ComponentType2>(1), component_type_2);
+
+  ecs::ComponentsManager::Instance().RemoveEntitiesComponents(1);
+
+  ASSERT_EQ(ecs::ComponentsManager::Instance().GetComponent<ComponentType1>(1), nullptr);
+  ASSERT_EQ(ecs::ComponentsManager::Instance().GetComponent<ComponentType2>(1), nullptr);
+}
