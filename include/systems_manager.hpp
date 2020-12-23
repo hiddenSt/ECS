@@ -11,7 +11,7 @@ namespace ecs {
 class SystemsManager {
  public:
   static SystemsManager& Instance();
-  static void Initialize();
+  static void Initialize(unsigned char* memory_ptr);
   static void Destroy();
 
   void AddSystem(System* system);

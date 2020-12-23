@@ -2,12 +2,12 @@
 
 ecs::SystemsManager* ecs::SystemsManager::instance_ = nullptr;
 
-void ecs::SystemsManager::Initialize() {
+void ecs::SystemsManager::Initialize(unsigned char* memory_ptr) {
   if (instance_ != nullptr) {
     throw std::logic_error("System already initialized.");
   }
   std::size_t number_of_system_types = System::GetSystemTypesCount();
-  instance_ = new SystemsManager(number_of_system_types);
+  instance_ = new (memory_ptr) SystemsManager(number_of_system_types);
 }
 
 void ecs::SystemsManager::Destroy() {

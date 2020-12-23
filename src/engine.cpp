@@ -34,7 +34,9 @@ ecs::Engine::Engine(unsigned char* memory_arena, const uint64_t& memory_size_byt
       entities_manager_memory_ptr_(nullptr),
       set_entities_id_container_(nullptr),
       systems_count_(0) {
-  SystemsManager::Initialize();
+
+  systems_manager_memory_ptr_ = static_cast<unsigned char*>(allocator_.Allocate(sizeof(SystemsManager), 8));
+  SystemsManager::Initialize(systems_manager_memory_ptr_);
   components_manager_memory_ptr_ =
       static_cast<unsigned char*>(allocator_.Allocate(sizeof(ComponentsManager), 8));
   entities_manager_memory_ptr_ =

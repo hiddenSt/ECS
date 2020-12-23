@@ -6,11 +6,13 @@
 class SystemsManagerTest : public ::testing::Test {
  protected:
   void SetUp() override {
-    ecs::SystemsManager::Initialize();
+    memory_ptr_ = new unsigned char[sizeof(ecs::SystemsManager)];
+    ecs::SystemsManager::Initialize(memory_ptr_);
   }
 
   void TearDown() override {
     ecs::SystemsManager::Destroy();
+    delete[] memory_ptr_;
   }
 
   struct System1 : public ecs::SystemType<System1> {
@@ -40,6 +42,7 @@ class SystemsManagerTest : public ::testing::Test {
     std::vector<std::size_t>& order_3;
   };
 
+  unsigned char* memory_ptr_;
   std::vector<std::size_t> order;
 };
 
