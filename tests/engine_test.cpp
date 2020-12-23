@@ -72,3 +72,4 @@ TEST_F(EngineTest, CanAddSystem) {
   ASSERT_NO_THROW(system = ecs::Engine::Instance().AddSystem<System1>());
   ASSERT_NE(system, nullptr);
 }
+
