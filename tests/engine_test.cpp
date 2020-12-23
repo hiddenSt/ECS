@@ -28,10 +28,19 @@ class EngineTest : public ::testing::Test {
     int a;
     float c;
   };
+
+class System1 : public ecs::SystemType<System1> {
+ private:
+  int a;
+};
 };
 
 TEST_F(EngineTest, CanAccessInstance) {
-  ASSERT_NO_THROW(ecs::EntitiesManager::Instance());
+  ASSERT_NO_THROW(ecs::Engine::Instance());
+}
+
+TEST_F(EngineTest, CanCreateEntity) {
+  ASSERT_NO_THROW(ecs::Engine::Instance().CreateEntity());
 }
 
 TEST_F(EngineTest, CanAddComponent) {
@@ -56,4 +65,10 @@ TEST_F(EngineTest, RemovesComponentsFromEntity) {
   ecs::Engine::Instance().RemoveComponent<Component1>(entity_id);
   Component1* request = ecs::Engine::Instance().GetComponent<Component1>(entity_id);
   ASSERT_EQ(request, nullptr);
+}
+
+TEST_F(EngineTest, CanAddSystem) {
+  ecs::System* system = nullptr;
+  ASSERT_NO_THROW(system = ecs::Engine::Instance().AddSystem<System1>());
+  ASSERT_NE(system, nullptr);
 }

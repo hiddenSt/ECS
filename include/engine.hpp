@@ -30,6 +30,10 @@ class Engine {
   template <typename T>
   T* GetComponent(const EntityId& entity_id);
 
+  template <typename T, typename... Args>
+  T* AddSystem(Args&&... args);
+  void SetSystemsDependency(System* system_dependent, System* depends_on);
+
   EntityId CreateEntity();
   void DestroyEntity(const EntityId& entity_id);
   void MakeTic();
@@ -44,6 +48,7 @@ class Engine {
   void AddComponentTypeContainer();
 
   static Engine* instance_;
+  std::size_t systems_count_;
   uint64_t memory_size_bytes_;
   std::size_t max_components_per_type_;
   std::vector<allocators::PoolAllocator*> pool_allocators_;
@@ -93,6 +98,18 @@ void Engine::AddComponentTypeContainer() {
   auto* components_container =
       new ComponentTypeContainer<T, allocators::PoolAllocator>(*pool_allocator, *map_look_up_table);
   ComponentsManager::Instance().AddComponentsContainer(components_container);
+}
+
+template <typename T, typename... Args>
+T* ecs::Engine::AddSystem(Args&&... args) {
+  auto* allocated_memory = allocator_.Allocate(sizeof(T), 8);
+  if (allocated_memory == nullptr) {
+    throw std::bad_alloc();
+  }
+  ++systems_count_;
+  T* system = new(allocated_memory) T(std::forward<Args>(args)...);
+  SystemsManager::Instance().AddSystem(system);
+  return system;
 }
 
 }  // namespace ecs

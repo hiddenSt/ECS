@@ -1,15 +1,17 @@
 #include "entities_manager.hpp"
 
+#include <memory>
+
 ecs::EntitiesManager* ecs::EntitiesManager::instance_ = nullptr;
 
 ecs::EntitiesManager& ecs::EntitiesManager::Instance() {
   return *instance_;
 }
 
-ecs::EntitiesManager& ecs::EntitiesManager::Initialize(
+ecs::EntitiesManager& ecs::EntitiesManager::Initialize(unsigned char* memory_ptr,
     ecs::EntitiesIdContainer& entities_id_container) {
   if (instance_ == nullptr) {
-    instance_ = new EntitiesManager(entities_id_container);
+    instance_ = new (memory_ptr) EntitiesManager(entities_id_container);
   }
 
   return *instance_;
@@ -27,4 +29,8 @@ ecs::EntityId ecs::EntitiesManager::CreateEntity() {
 
 void ecs::EntitiesManager::RemoveEntity(const ecs::EntityId& entity_id) {
   entities_id_container_.Remove(entity_id);
+}
+
+void ecs::EntitiesManager::Destroy() {
+  instance_ = nullptr;
 }
