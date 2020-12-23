@@ -59,7 +59,14 @@ void ecs::Engine::SetUp() {
 void ecs::Engine::ShutDown() {
   SystemsManager::Destroy();
   ComponentsManager::Destroy();
-  //EntitiesManager::Destroy();  // TODO: need implemantation
+  instance_ = nullptr;
+  // EntitiesManager::Destroy();  // TODO: need implemantation
+  for (std::size_t i = 0; i <= pool_allocators_.size(); ++i) {
+    if (pool_allocators_[i] != nullptr) allocator_.Free();
+  }
+  // remove entities memory
+  // remove componentes_manager_memory
+  // remove systems_manager_memory
 }
 
 void ecs::Engine::DestroyEntity(const EntityId& entity_id) {

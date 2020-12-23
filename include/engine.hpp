@@ -10,6 +10,7 @@
 #include "stack_allocator.hpp"
 #include "system_type.hpp"
 #include "systems_manager.hpp"
+#include "utility/map_look_up_table.hpp"
 #include "utility/set_entities_id_container.hpp"
 
 namespace ecs {
@@ -27,7 +28,7 @@ class Engine {
   void RemoveComponent(const EntityId& entity_id);
 
   template <typename T>
-  T GetComponent(const EntityId& entity_id);
+  T* GetComponent(const EntityId& entity_id);
 
   EntityId CreateEntity();
   void DestroyEntity(const EntityId& entity_id);
@@ -49,7 +50,6 @@ class Engine {
   unsigned char* components_manager_memory_ptr_;
   unsigned char* entities_manager_memory_ptr_;
   unsigned char* systems_manager_memory_ptr_;
-  std::vector<unsigned char*> allocated_memory_pointers_;
   allocators::StackAllocator allocator_;
   util::SetEntitiesIdContainer* set_entities_id_container_;
 };
@@ -70,7 +70,7 @@ void Engine::RemoveComponent(const EntityId& entity_id) {
 }
 
 template <typename T>
-T Engine::GetComponent(const EntityId& entity_id) {
+T* Engine::GetComponent(const EntityId& entity_id) {
   if (pool_allocators_[T::StaticGetComponentTypeId()] == nullptr) {
     AddComponentTypeContainer<T>();
   }
@@ -80,20 +80,20 @@ T Engine::GetComponent(const EntityId& entity_id) {
 template <typename T>
 void Engine::AddComponentTypeContainer() {
   uint64_t memory_size_bytes = sizeof(T) * max_components_per_type_;
-  auto* allocated_memory =
-      static_cast<unsigned char*>(allocator_.Allocate(memory_size_bytes, sizeof(T)));
-
+  auto* allocated_memory = static_cast<unsigned char*>(allocator_.Allocate(memory_size_bytes, 8));
   if (allocated_memory == nullptr) {
     throw std::bad_alloc();
   }
 
-  allocated_memory_pointers_.push_back(allocated_memory);
+  auto* map_look_up_table = new util::MapLookUpTable();
+
   auto* pool_allocator =
       new allocators::PoolAllocator(allocated_memory, memory_size_bytes, sizeof(T));
   pool_allocators_[T::StaticGetComponentTypeId()] = pool_allocator;
+  auto* components_container =
+      new ComponentTypeContainer<T, allocators::PoolAllocator>(*pool_allocator, *map_look_up_table);
+  ComponentsManager::Instance().AddComponentsContainer(components_container);
 }
-
-
 
 }  // namespace ecs
 #endif  // ECS_INCLUDE_ENGINE_HPP_

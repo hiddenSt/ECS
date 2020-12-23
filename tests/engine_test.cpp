@@ -10,6 +10,7 @@ class EngineTest : public ::testing::Test {
   }
 
   void TearDown() override {
+    ecs::Engine::Instance().ShutDown();
     delete[] memory_arena_;
   }
 
@@ -35,6 +36,24 @@ TEST_F(EngineTest, CanAccessInstance) {
 
 TEST_F(EngineTest, CanAddComponent) {
   ecs::EntityId entity_id = ecs::Engine::Instance().CreateEntity();
-  Component1* component_1 = ecs::Engine::Instance().AddComponent<Component1>(entity_id, 10 ,20);
+  Component1* component_1 = ecs::Engine::Instance().AddComponent<Component1>(entity_id, 10, 20);
   ASSERT_NE(component_1, nullptr);
+}
+
+TEST_F(EngineTest, CanGetComponenet) {
+  ecs::EntityId entity_id = ecs::Engine::Instance().CreateEntity();
+  Component1* component_1 = ecs::Engine::Instance().AddComponent<Component1>(entity_id, 10, 20);
+  Component1* request = ecs::Engine::Instance().GetComponent<Component1>(entity_id);
+  ASSERT_EQ(component_1, request);
+  ASSERT_EQ(component_1->a, request->a);
+  ASSERT_EQ(component_1->b, request->b);
+}
+
+TEST_F(EngineTest, RemovesComponentsFromEntity) {
+  ecs::EntityId entity_id = ecs::Engine::Instance().CreateEntity();
+  Component1* component_1 = ecs::Engine::Instance().AddComponent<Component1>(entity_id, 10, 20);
+  ASSERT_NE(component_1, nullptr);
+  ecs::Engine::Instance().RemoveComponent<Component1>(entity_id);
+  Component1* request = ecs::Engine::Instance().GetComponent<Component1>(entity_id);
+  ASSERT_EQ(request, nullptr);
 }
