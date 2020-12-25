@@ -80,7 +80,7 @@ ComponentTypeIterator<T>* ComponentsManager::GetComponentsIterator() {
   const ComponentTypeId kGetComponentTypeId = T::StaticGetComponentTypeId();
 
   ComponentsIterator* iterator =
-      components_types_containers_[kGetComponentTypeId]->GetComponentsIterator();
+      components_types_containers_[kGetComponentTypeId - 1]->GetComponentsIterator();
   ComponentTypeIterator<T>* component_type_iterator = new ComponentTypeIterator<T>(iterator);
   return component_type_iterator;
 }
