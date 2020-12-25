@@ -1,6 +1,5 @@
 #include "system.hpp"
 
-// Sets base value for system type identifier.
 std::size_t ecs::System::systems_types_counter_ = 0;
 
 std::size_t ecs::System::GetSystemTypesCount() {

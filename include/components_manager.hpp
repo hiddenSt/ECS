@@ -27,9 +27,7 @@ class ComponentsManager {
   T* GetComponent(const EntityId& entity_id);
   template <typename T>
   void RemoveComponent(const EntityId& entity_id);
-
   void RemoveEntitiesComponents(const EntityId& entity_id);
-
   template <typename T>
   ComponentTypeIterator<T>* GetComponentsIterator();
   template <typename T>
@@ -71,16 +69,16 @@ T* ComponentsManager::GetComponent(const EntityId& entity_id) {
 
 template <typename T>
 void ComponentsManager::RemoveComponent(const EntityId& entity_id) {
-  const ComponentTypeId kStaticGetComponentTypeId = T::StaticGetComponentTypeId();
-  components_types_containers_[kStaticGetComponentTypeId - 1]->RemoveComponent(entity_id);
+  const ComponentTypeId kComponentTypeId = T::StaticGetComponentTypeId();
+  components_types_containers_[kComponentTypeId - 1]->RemoveComponent(entity_id);
 }
 
 template <typename T>
 ComponentTypeIterator<T>* ComponentsManager::GetComponentsIterator() {
-  const ComponentTypeId kGetComponentTypeId = T::StaticGetComponentTypeId();
+  const ComponentTypeId kComponentTypeId = T::StaticGetComponentTypeId();
 
   ComponentsIterator* iterator =
-      components_types_containers_[kGetComponentTypeId - 1]->GetComponentsIterator();
+      components_types_containers_[kComponentTypeId - 1]->GetComponentsIterator();
   ComponentTypeIterator<T>* component_type_iterator = new ComponentTypeIterator<T>(iterator);
   return component_type_iterator;
 }

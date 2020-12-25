@@ -1,6 +1,5 @@
 #include "component.hpp"
 
-// Sets base value for components type identifier.
 std::size_t ecs::Component::components_types_counter_ = 0;
 
 ecs::EntityId ecs::Component::GetEntityId() const noexcept {

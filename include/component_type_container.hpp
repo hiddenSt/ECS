@@ -23,25 +23,25 @@ class ComponentTypeContainer : public ComponentsContainer {
 
  private:
   Alloc& alloc_;
-  ComponentsLookUpTable& entity_lookup_table_;
+  ComponentsLookUpTable& components_lookup_table_;
 };
 
 template <typename T, typename Alloc>
 Component* ComponentTypeContainer<T, Alloc>::GetComponent(const EntityId& entity_id) {
-  auto search = entity_lookup_table_.Find(entity_id);
+  auto* search = components_lookup_table_.Find(entity_id);
   return search;
 }
 
 template <typename T, typename Alloc>
 void ComponentTypeContainer<T, Alloc>::RemoveComponent(const EntityId& entity_id) {
-  auto component = entity_lookup_table_.Find(entity_id);
+  auto* component = components_lookup_table_.Find(entity_id);
 
   if (component == nullptr) {
-    throw std::logic_error("Can not remove component because entity does not has one");
+    throw std::logic_error("Can not remove component because entity does not has one.");
   }
 
   alloc_.Free(component);
-  entity_lookup_table_.Remove(entity_id);
+  components_lookup_table_.Remove(entity_id);
 }
 
 template <typename T, typename Alloc>
@@ -49,17 +49,17 @@ ComponentTypeContainer<T, Alloc>::ComponentTypeContainer(Alloc& alloc,
                                                          ComponentsLookUpTable& look_up_table)
     : ComponentsContainer(T::StaticGetComponentTypeId()),
       alloc_(alloc),
-      entity_lookup_table_(look_up_table) {
+      components_lookup_table_(look_up_table) {
 }
 
 template <typename T, typename Alloc>
 ComponentsIterator* ComponentTypeContainer<T, Alloc>::GetComponentsIterator() {
-  return entity_lookup_table_.GetIterator();
+  return components_lookup_table_.GetIterator();
 }
 
 template <typename T, typename Alloc>
 Component* ComponentTypeContainer<T, Alloc>::AddComponent(const EntityId& entity_id) {
-  auto component = entity_lookup_table_.Find(entity_id);
+  auto component = components_lookup_table_.Find(entity_id);
   if (component != nullptr) {
     throw std::logic_error("Entity already has component of this type");
   }
@@ -68,13 +68,13 @@ Component* ComponentTypeContainer<T, Alloc>::AddComponent(const EntityId& entity
     throw std::logic_error("Can not allocate memory for component");
   }
   auto new_comp = static_cast<T*>(new_component_memory);
-  entity_lookup_table_.Insert(entity_id, new_comp);
+  components_lookup_table_.Insert(entity_id, new_comp);
   return static_cast<Component*>(new_comp);
 }
 
 template <typename T, typename Alloc>
 ComponentTypeContainer<T, Alloc>::~ComponentTypeContainer() {
-  auto* iterator = entity_lookup_table_.GetIterator();
+  auto* iterator = components_lookup_table_.GetIterator();
   for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
     alloc_.Free(iterator->CurrentComponent());
   }

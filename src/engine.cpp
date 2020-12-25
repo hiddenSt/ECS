@@ -2,7 +2,6 @@
 
 #include <stdexcept>
 
-#include "component.hpp"
 #include "stack_allocator.hpp"
 
 ecs::Engine* ecs::Engine::instance_ = nullptr;
