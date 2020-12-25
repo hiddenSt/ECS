@@ -174,3 +174,8 @@ TEST_F(ComponentsManagerTest, RemovesAllEntityComponents) {
   ASSERT_EQ(ecs::ComponentsManager::Instance().GetComponent<ComponentType1>(1), nullptr);
   ASSERT_EQ(ecs::ComponentsManager::Instance().GetComponent<ComponentType2>(1), nullptr);
 }
+
+TEST_F(ComponentsManagerTest, CanGetIterator) {
+  auto* iterator = ecs::ComponentsManager::Instance().GetComponentsIterator<ComponentType1>();
+  ASSERT_NE(iterator, nullptr);
+}
