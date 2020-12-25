@@ -107,7 +107,7 @@ T* ecs::Engine::AddSystem(Args&&... args) {
     throw std::bad_alloc();
   }
   ++systems_count_;
-  T* system = new(allocated_memory) T(std::forward<Args>(args)...);
+  T* system = new (allocated_memory) T(std::forward<Args>(args)...);
   SystemsManager::Instance().AddSystem(system);
   return system;
 }

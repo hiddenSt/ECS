@@ -8,8 +8,8 @@ ecs::EntitiesManager& ecs::EntitiesManager::Instance() {
   return *instance_;
 }
 
-ecs::EntitiesManager& ecs::EntitiesManager::Initialize(unsigned char* memory_ptr,
-    ecs::EntitiesIdContainer& entities_id_container) {
+ecs::EntitiesManager& ecs::EntitiesManager::Initialize(
+    unsigned char* memory_ptr, ecs::EntitiesIdContainer& entities_id_container) {
   if (instance_ == nullptr) {
     instance_ = new (memory_ptr) EntitiesManager(entities_id_container);
   }

@@ -34,8 +34,8 @@ ecs::Engine::Engine(unsigned char* memory_arena, const uint64_t& memory_size_byt
       entities_manager_memory_ptr_(nullptr),
       set_entities_id_container_(nullptr),
       systems_count_(0) {
-
-  systems_manager_memory_ptr_ = static_cast<unsigned char*>(allocator_.Allocate(sizeof(SystemsManager), 8));
+  systems_manager_memory_ptr_ =
+      static_cast<unsigned char*>(allocator_.Allocate(sizeof(SystemsManager), 8));
   SystemsManager::Initialize(systems_manager_memory_ptr_);
   components_manager_memory_ptr_ =
       static_cast<unsigned char*>(allocator_.Allocate(sizeof(ComponentsManager), 8));
@@ -78,7 +78,6 @@ void ecs::Engine::DestroyEntity(const EntityId& entity_id) {
   ComponentsManager::Instance().RemoveEntitiesComponents(entity_id);
   EntitiesManager::Instance().RemoveEntity(entity_id);
 }
-
 
 void ecs::Engine::SetSystemsDependency(System* system_dependent, System* depends_on) {
   SystemsManager::Instance().AddDependency(system_dependent, depends_on);

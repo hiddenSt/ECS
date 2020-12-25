@@ -29,10 +29,10 @@ class EngineTest : public ::testing::Test {
     float c;
   };
 
-class System1 : public ecs::SystemType<System1> {
- private:
-  int a;
-};
+  class System1 : public ecs::SystemType<System1> {
+   private:
+    int a;
+  };
 };
 
 TEST_F(EngineTest, CanAccessInstance) {
@@ -72,4 +72,3 @@ TEST_F(EngineTest, CanAddSystem) {
   ASSERT_NO_THROW(system = ecs::Engine::Instance().AddSystem<System1>());
   ASSERT_NE(system, nullptr);
 }
-

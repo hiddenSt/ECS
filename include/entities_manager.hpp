@@ -8,7 +8,8 @@ namespace ecs {
 class EntitiesManager {
  public:
   static EntitiesManager& Instance();
-  static EntitiesManager& Initialize(unsigned char* memory_ptr, EntitiesIdContainer& entities_id_container);
+  static EntitiesManager& Initialize(unsigned char* memory_ptr,
+                                     EntitiesIdContainer& entities_id_container);
   static void Destroy();
 
   EntityId CreateEntity();
