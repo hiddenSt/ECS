@@ -23,7 +23,7 @@ jobs:
         source: '.'
         exclude: './libs'
         extensions: 'hpp,cpp'
-        clangFormatVersion: 12
+        clangFormatVersion: 11
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
