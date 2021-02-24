@@ -1,9 +1,8 @@
 #ifndef ECS_INCLUDE_UTILITY_SET_ENTITIES_ID_CONTAINER_HPP_
 #define ECS_INCLUDE_UTILITY_SET_ENTITIES_ID_CONTAINER_HPP_
 
-#include <set>
-
 #include <ecs/entity/entities_id_container.hpp>
+#include <set>
 
 namespace ecs {
 namespace util {

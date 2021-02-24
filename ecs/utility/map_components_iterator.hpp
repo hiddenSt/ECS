@@ -1,9 +1,8 @@
 #ifndef ECS_INCLUDE_UTILITY_MAP_COMPONENTS_ITERATOR_HPP_
 #define ECS_INCLUDE_UTILITY_MAP_COMPONENTS_ITERATOR_HPP_
 
-#include <map>
-
 #include <ecs/iterator/components_iterator.hpp>
+#include <map>
 
 namespace ecs {
 namespace util {

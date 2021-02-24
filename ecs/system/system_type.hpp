@@ -1,8 +1,8 @@
 #ifndef ECS_INCLUDE_SYSTEM_TYPE_HPP_
 #define ECS_INCLUDE_SYSTEM_TYPE_HPP_
 
-#include <ecs/types.hpp>
 #include <ecs/system/system.hpp>
+#include <ecs/types.hpp>
 
 namespace ecs {
 namespace system {

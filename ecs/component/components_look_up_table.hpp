@@ -1,9 +1,9 @@
 #ifndef ECS_INCLUDE_COMPONENTS_LOOK_UP_TABLE_HPP_
 #define ECS_INCLUDE_COMPONENTS_LOOK_UP_TABLE_HPP_
 
-#include <ecs/types.hpp>
 #include <ecs/component/component.hpp>
 #include <ecs/iterator/components_iterator.hpp>
+#include <ecs/types.hpp>
 
 namespace ecs {
 namespace component {

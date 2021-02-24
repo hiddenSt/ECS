@@ -1,18 +1,16 @@
 #ifndef ECS_INCLUDE_ENGINE_HPP_
 #define ECS_INCLUDE_ENGINE_HPP_
 
-#include <vector>
-
 #include <allocators/pool_allocator/pool_allocator.hpp>
 #include <allocators/stack_allocator/stack_allocator.hpp>
-
 #include <ecs/component/component_type.hpp>
-#include <ecs/system/system_type.hpp>
-#include <ecs/manager/systems_manager.hpp>
 #include <ecs/manager/components_manager.hpp>
 #include <ecs/manager/entities_manager.hpp>
+#include <ecs/manager/systems_manager.hpp>
+#include <ecs/system/system_type.hpp>
 #include <ecs/utility/map_look_up_table.hpp>
 #include <ecs/utility/set_entities_id_container.hpp>
+#include <vector>
 
 namespace ecs {
 
@@ -65,8 +63,8 @@ T* ecs::Engine::AddComponent(const ecs::EntityId& entity_id, Args&&... args) {
   if (pool_allocators_[T::StaticGetComponentTypeId()] == nullptr) {
     AddComponentTypeContainer<T>();
   }
-  T* component =
-      manager::ComponentsManager::Instance().AddComponent<T>(entity_id, std::forward<Args>(args)...);
+  T* component = manager::ComponentsManager::Instance().AddComponent<T>(
+      entity_id, std::forward<Args>(args)...);
   return component;
 }
 
@@ -96,8 +94,8 @@ void Engine::AddComponentTypeContainer() {
   auto* pool_allocator =
       new allocators::PoolAllocator(allocated_memory, memory_size_bytes, sizeof(T));
   pool_allocators_[T::StaticGetComponentTypeId()] = pool_allocator;
-  auto* components_container =
-      new component::ComponentTypeContainer<T, allocators::PoolAllocator>(*pool_allocator, *map_look_up_table);
+  auto* components_container = new component::ComponentTypeContainer<T, allocators::PoolAllocator>(
+      *pool_allocator, *map_look_up_table);
   manager::ComponentsManager::Instance().AddComponentsContainer(components_container);
 }
 

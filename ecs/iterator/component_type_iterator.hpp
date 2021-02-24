@@ -1,8 +1,8 @@
 #ifndef ECS_INCLUDE_COMPONENT_TYPE_ITERATOR_HPP_
 #define ECS_INCLUDE_COMPONENT_TYPE_ITERATOR_HPP_
 
-#include <ecs/types.hpp>
 #include <ecs/component/components_container.hpp>
+#include <ecs/types.hpp>
 
 namespace ecs {
 namespace iterator {

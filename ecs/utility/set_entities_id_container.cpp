@@ -1,5 +1,4 @@
 #include <ecs/utility/set_entities_id_container.hpp>
-
 #include <stdexcept>
 
 namespace ecs {

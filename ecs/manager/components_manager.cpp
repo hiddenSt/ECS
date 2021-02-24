@@ -6,7 +6,7 @@ namespace manager {
 ComponentsManager* ComponentsManager::instance_ = nullptr;
 
 void ComponentsManager::Initialize(unsigned char* memory_ptr,
-                                        const size_t& number_of_components_types) {
+                                   const size_t& number_of_components_types) {
   if (instance_ != nullptr) {
     return;
   }
@@ -37,7 +37,8 @@ ComponentsManager& ComponentsManager::Instance() {
   return *instance_;
 }
 
-void ComponentsManager::AddComponentsContainer(component::ComponentsContainer* components_container) {
+void ComponentsManager::AddComponentsContainer(
+    component::ComponentsContainer* components_container) {
   const ComponentTypeId kComponentTypeId = components_container->GetComponentTypeId();
   components_types_containers_[kComponentTypeId - 1] = components_container;
 }

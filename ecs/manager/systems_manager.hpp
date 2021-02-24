@@ -1,10 +1,9 @@
 #ifndef ECS_INCLUDE_SYSTEMS_MANAGER_HPP_
 #define ECS_INCLUDE_SYSTEMS_MANAGER_HPP_
 
+#include <ecs/system/system.hpp>
 #include <stdexcept>
 #include <vector>
-
-#include <ecs/system/system.hpp>
 
 namespace ecs {
 namespace manager {

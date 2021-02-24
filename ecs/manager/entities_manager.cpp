@@ -1,5 +1,4 @@
 #include <ecs/manager/entities_manager.hpp>
-
 #include <memory>
 
 namespace ecs {
@@ -11,8 +10,8 @@ EntitiesManager& EntitiesManager::Instance() {
   return *instance_;
 }
 
-EntitiesManager& EntitiesManager::Initialize(
-    unsigned char* memory_ptr, entity::EntitiesIdContainer& entities_id_container) {
+EntitiesManager& EntitiesManager::Initialize(unsigned char* memory_ptr,
+                                             entity::EntitiesIdContainer& entities_id_container) {
   if (instance_ == nullptr) {
     instance_ = new (memory_ptr) EntitiesManager(entities_id_container);
   }

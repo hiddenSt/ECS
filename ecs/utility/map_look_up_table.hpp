@@ -1,9 +1,8 @@
 #ifndef ECS_INCLUDE_UTILITY_MAP_LOOK_UP_TABLE_HPP_
 #define ECS_INCLUDE_UTILITY_MAP_LOOK_UP_TABLE_HPP_
 
-#include <map>
-
 #include <ecs/component/components_look_up_table.hpp>
+#include <map>
 
 namespace ecs {
 namespace util {

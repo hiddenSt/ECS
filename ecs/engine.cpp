@@ -1,9 +1,6 @@
-#include <ecs/engine.hpp>
-
-#include <stdexcept>
-
 #include <allocators/stack_allocator/stack_allocator.hpp>
-
+#include <ecs/engine.hpp>
+#include <stdexcept>
 
 namespace ecs {
 
@@ -18,15 +15,14 @@ Engine& Engine::Instance() {
 }
 
 void Engine::Initialize(unsigned char* memory_arena, const uint64_t& memory_size_bytes,
-                             const std::size_t& max_components_per_type) {
+                        const std::size_t& max_components_per_type) {
   std::size_t components_types_count = component::Component::GetComponentsTypesCount();
   instance_ =
       new Engine(memory_arena, memory_size_bytes, max_components_per_type, components_types_count);
 }
 
 Engine::Engine(unsigned char* memory_arena, const uint64_t& memory_size_bytes,
-                    const std::size_t& max_components_per_type,
-                    const std::size_t& component_types_count)
+               const std::size_t& max_components_per_type, const std::size_t& component_types_count)
     : memory_size_bytes_(memory_size_bytes),
       max_components_per_type_(max_components_per_type),
       allocator_(memory_arena, memory_size_bytes),
@@ -44,7 +40,7 @@ Engine::Engine(unsigned char* memory_arena, const uint64_t& memory_size_bytes,
   entities_manager_memory_ptr_ =
       static_cast<unsigned char*>(allocator_.Allocate(sizeof(manager::EntitiesManager), 8));
   manager::ComponentsManager::Initialize(components_manager_memory_ptr_,
-                                component::Component::GetComponentsTypesCount());
+                                         component::Component::GetComponentsTypesCount());
   set_entities_id_container_ = new util::SetEntitiesIdContainer();
   manager::EntitiesManager::Initialize(entities_manager_memory_ptr_, *set_entities_id_container_);
 }

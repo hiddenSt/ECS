@@ -11,7 +11,5 @@ ComponentTypeId ComponentsContainer::GetComponentTypeId() const noexcept {
   return kComponentTypeId_;
 }
 
-
 }  // namespace component
 }  // namespace ecs
-

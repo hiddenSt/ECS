@@ -23,5 +23,5 @@ component::Component* ecs::util::MapComponentsIterator::CurrentComponent() {
   return iterator_->second;
 }
 
-}  // namespace utility
+}  // namespace util
 }  // namespace ecs

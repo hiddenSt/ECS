@@ -4,7 +4,7 @@ project(ecs VERSION 1.0)
 include(cmake/ClangFormat.cmake)
 include(cmake/ClangTidy.cmake)
 
-option(ECS_DEVELOPER "ECS development mode" OFF)
+option(ECS_DEVELOPER "ECS development mode" ON)
 option(ECS_TESTS "Enable ECS tests" OFF)
 
 add_subdirectory(third-party)

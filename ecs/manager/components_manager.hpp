@@ -1,11 +1,10 @@
 #ifndef ECS_INCLUDE_COMPONENTS_MANAGER_HPP_
 #define ECS_INCLUDE_COMPONENTS_MANAGER_HPP_
 
-#include <vector>
-
-#include <ecs/component/components_container.hpp>
 #include <ecs/component/component_type_container.hpp>
+#include <ecs/component/components_container.hpp>
 #include <ecs/iterator/component_type_iterator.hpp>
+#include <vector>
 
 namespace ecs {
 namespace manager {
@@ -80,7 +79,8 @@ iterator::ComponentTypeIterator<T>* ComponentsManager::GetComponentsIterator() {
 
   iterator::ComponentsIterator* iterator =
       components_types_containers_[kComponentTypeId - 1]->GetComponentsIterator();
-  iterator::ComponentTypeIterator<T>* component_type_iterator = new iterator::ComponentTypeIterator<T>(iterator);
+  iterator::ComponentTypeIterator<T>* component_type_iterator =
+      new iterator::ComponentTypeIterator<T>(iterator);
   return component_type_iterator;
 }
 

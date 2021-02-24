@@ -1,12 +1,11 @@
 #ifndef ECS_INCLUDE_COMPONENT_TYPE_CONTAINER_HPP_
 #define ECS_INCLUDE_COMPONENT_TYPE_CONTAINER_HPP_
 
+#include <ecs/component/components_container.hpp>
+#include <ecs/component/components_look_up_table.hpp>
 #include <map>
 #include <stdexcept>
 #include <utility>
-
-#include <ecs/component/components_container.hpp>
-#include <ecs/component/components_look_up_table.hpp>
 
 namespace ecs {
 namespace component {
