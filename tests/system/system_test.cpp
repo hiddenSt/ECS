@@ -32,12 +32,12 @@ class SystemTest : public ::testing::Test {
 };
 
 TEST_F(SystemTest, GeneratesUniqueId) {
-  ASSERT_NE(SystemType1::StaticGetSystemTypeId(), SystemType2::StaticGetSystemTypeId());
-  ASSERT_EQ(SystemType1::StaticGetSystemTypeId(), 1);
-  ASSERT_EQ(SystemType2::StaticGetSystemTypeId(), 2);
+  auto system_1_type_id = SystemType1::StaticGetSystemTypeId();
+  auto system_2_type_id = SystemType2::StaticGetSystemTypeId();
+  ASSERT_NE(system_1_type_id, system_2_type_id);
 }
 
-TEST_F(SystemTest, CanAccessRightTypeIdThroughObject) {
+TEST_F(SystemTest, CanAccessCorrectTypeIdThroughObject) {
   SystemType1 system_type_1;
   SystemType2 system_type_2;
   ASSERT_EQ(system_type_1.GetSystemTypeId(), SystemType1::StaticGetSystemTypeId());

@@ -80,5 +80,4 @@ void Engine::DestroyEntity(const EntityId& entity_id) {
 void Engine::SetSystemsDependency(system::System* system_dependent, system::System* depends_on) {
   manager::SystemsManager::Instance().AddDependency(system_dependent, depends_on);
 }
-
 }  // namespace ecs
