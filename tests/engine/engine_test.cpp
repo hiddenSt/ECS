@@ -1,6 +1,6 @@
-#include <ecs/engine.hpp>
-
 #include <gtest/gtest.h>
+
+#include <ecs/engine.hpp>
 
 class EngineTest : public ::testing::Test {
  protected:

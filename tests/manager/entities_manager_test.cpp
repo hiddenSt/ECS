@@ -1,6 +1,6 @@
-#include <ecs/manager/entities_manager.hpp>
-
 #include <gtest/gtest.h>
+
+#include <ecs/manager/entities_manager.hpp>
 #include <ecs/utility/set_entities_id_container.hpp>
 
 class EntitiesManagerTest : public ::testing::Test {

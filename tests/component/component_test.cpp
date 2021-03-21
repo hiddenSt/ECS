@@ -1,5 +1,6 @@
+#include <gtest/gtest.h>
+
 #include <ecs/component/component_type.hpp>
-#include "gtest/gtest.h"
 
 TEST(ComponentTest, ComponentTypeGetsId) {
   class Component1 : public ecs::component::ComponentType<Component1> {

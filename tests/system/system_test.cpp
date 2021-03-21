@@ -1,6 +1,6 @@
-#include <ecs/system/system_type.hpp>
-
 #include <gtest/gtest.h>
+
+#include <ecs/system/system_type.hpp>
 
 class SystemTest : public ::testing::Test {
  protected:

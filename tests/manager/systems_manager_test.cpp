@@ -1,6 +1,6 @@
-#include <ecs/manager/systems_manager.hpp>
-
 #include <gtest/gtest.h>
+
+#include <ecs/manager/systems_manager.hpp>
 #include <ecs/system/system_type.hpp>
 
 class SystemsManagerTest : public ::testing::Test {

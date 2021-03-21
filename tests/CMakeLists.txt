@@ -1,4 +1,3 @@
-
 file(GLOB_RECURSE TESTS "*_test.cpp")
 add_executable(Run_ECS_Tests ${TESTS})
 
@@ -9,3 +8,11 @@ target_include_directories(Run_ECS_Tests PRIVATE
   "${allocators_SOURCE_DIR}"
   "${ecs_SOURCE_DIR}"
   )
+
+if(ECS_DEVELOPER)
+
+  if(CLANG_FORMAT_TOOL)
+    add_clang_format_target(ecs_tests_clang_format ${CMAKE_CURRENT_SOURCE_DIR} ${TESTS})
+  endif()
+
+endif()

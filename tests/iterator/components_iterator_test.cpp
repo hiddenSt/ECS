@@ -1,9 +1,8 @@
-#include <ecs/iterator/component_type_iterator.hpp>
-#include <ecs/utility/map_components_iterator.hpp>
-
 #include <gtest/gtest.h>
 
 #include <ecs/component/component_type.hpp>
+#include <ecs/iterator/component_type_iterator.hpp>
+#include <ecs/utility/map_components_iterator.hpp>
 #include <ecs/utility/map_look_up_table.hpp>
 
 class ComponentsIteratorTest : public ::testing::Test {

@@ -7,7 +7,7 @@ find_program(CLANG_TIDY_TOOL
 
 function(add_clang_tidy_target NAME CWD INCLUDES)
   add_custom_target(${NAME}
-    COMMAND ${CLANG_TIDY_TOOL} ${ARGN} -- -std=c++17 -I ${INCLUDES}
+    COMMAND ${CLANG_TIDY_TOOL} ${ARGN} -- -std=c++17 -I${INCLUDES}
     WORKING_DIRECTORY ${CWD}
     COMMENT "Applying clang-tidy")
 endfunction()

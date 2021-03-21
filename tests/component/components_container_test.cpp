@@ -1,7 +1,8 @@
+#include <gtest/gtest.h>
+
+#include <allocators/pool_allocator/pool_allocator.hpp>
 #include <ecs/component/component_type.hpp>
 #include <ecs/component/component_type_container.hpp>
-#include <gtest/gtest.h>
-#include <allocators/pool_allocator/pool_allocator.hpp>
 #include <ecs/utility/map_look_up_table.hpp>
 
 class ComponentsContainerTest : public ::testing::Test {
@@ -31,7 +32,8 @@ class ComponentsContainerTest : public ::testing::Test {
     double d;
   };
 
-  ecs::component::ComponentTypeContainer<ComponentExample, allocators::PoolAllocator>* components_container_;
+  ecs::component::ComponentTypeContainer<ComponentExample, allocators::PoolAllocator>*
+      components_container_;
   unsigned char* allocated_memory_;
   allocators::PoolAllocator* pool_allocator_;
   ecs::util::MapLookUpTable* map_look_up_table_;
