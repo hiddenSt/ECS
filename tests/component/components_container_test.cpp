@@ -16,6 +16,8 @@ class ComponentsContainerTest : public ::testing::Test {
   }
 
   void TearDown() override {
+    pool_allocator_->~PoolAllocator();
+    delete[] allocated_memory_;
   }
 
   void SetUpMemory() {
@@ -27,6 +29,7 @@ class ComponentsContainerTest : public ::testing::Test {
   struct ComponentExample : public ecs::component::ComponentType<ComponentExample> {
     ComponentExample(int a1, double c1) : a(a1), c(c1), d(0.9) {
     }
+
     int a;
     double c;
     double d;

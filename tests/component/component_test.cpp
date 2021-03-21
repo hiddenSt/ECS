@@ -2,59 +2,40 @@
 
 #include <ecs/component/component_type.hpp>
 
+class Component1 : public ecs::component::ComponentType<Component1> {
+  int a;
+  float b;
+};
+
+class Component2 : public ecs::component::ComponentType<Component2> {
+  int a;
+  float b;
+};
+
 TEST(ComponentTest, ComponentTypeGetsId) {
-  class Component1 : public ecs::component::ComponentType<Component1> {
-    int a;
-    float b;
-  };
   ASSERT_EQ(Component1::StaticGetComponentTypeId(), 1);
 }
 
 TEST(ComponentTest, ComponentTypeInstanceReturnsCorrectId) {
-  class Component1 : public ecs::component::ComponentType<Component1> {
-    int a;
-    float b;
-  };
   Component1 comp1{};
-
   ASSERT_EQ(Component1::StaticGetComponentTypeId(), comp1.GetComponentTypeId());
 }
 
 TEST(ComponentTest, GeneratesCorrectUniqueIdForEveryComponentType) {
-  class Component1 : public ecs::component::ComponentType<Component1> {
-    int a;
-    float b;
-  };
-
-  class Component2 : public ecs::component::ComponentType<Component2> {
-    int a;
-    float b;
-  };
-
   std::size_t comp_1_id = Component1::StaticGetComponentTypeId();
-  ASSERT_EQ(comp_1_id, Component1::StaticGetComponentTypeId());
-
   std::size_t comp_2_id = Component2::StaticGetComponentTypeId();
-  ASSERT_EQ(comp_2_id, Component2::StaticGetComponentTypeId());
-
-  ASSERT_EQ(comp_2_id - comp_1_id, 1) << "Comp1: " << comp_1_id << " Comp2: " << comp_2_id;
+  ASSERT_EQ(comp_2_id - comp_1_id, 1);
 }
 
 TEST(ComponentTest, ComponentHasDefaultEntityIdEqualsTo0) {
-  class Component1 : public ecs::component::ComponentType<Component1> {
-    int a, b;
-  };
-
   Component1 comp1{};
-  ASSERT_EQ(comp1.GetEntityId(), 0);
+  std::size_t default_entity_id_value = 0;
+  ASSERT_EQ(comp1.GetEntityId(), default_entity_id_value);
 }
 
 TEST(ComponentTest, CanChangeComponentEntityId) {
-  class Component1 : public ecs::component::ComponentType<Component1> {
-    float a, b;
-  };
-
   Component1 comp1{};
-  comp1.SetEntityId(2);
-  ASSERT_EQ(comp1.GetEntityId(), 2);
+  std::size_t entity_id = 3;
+  comp1.SetEntityId(entity_id);
+  ASSERT_EQ(comp1.GetEntityId(), entity_id);
 }

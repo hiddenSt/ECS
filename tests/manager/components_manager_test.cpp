@@ -71,7 +71,7 @@ TEST_F(ComponentsManagerTest, AddComponent) {
   ASSERT_NE(component_type_1, nullptr);
   ASSERT_EQ(component_type_1->a, 1);
   ASSERT_EQ(component_type_1->b, 2);
-  ASSERT_EQ(component_type_1->c, 0.1) << "C: " << component_type_1->c;
+  ASSERT_EQ(component_type_1->c, 0.1);
 
   auto* component_type_2 = ecs::manager::ComponentsManager::Instance().AddComponent<ComponentType2>(
       1, 15, "Hello world");
@@ -134,7 +134,7 @@ TEST_F(ComponentsManagerTest, ComponentHasCorrectEntityId) {
   ASSERT_EQ(component_type_2->GetEntityId(), 1);
 }
 
-TEST_F(ComponentsManagerTest, GetComponentReturnsNullptrIfNoRequestedComponent) {
+TEST_F(ComponentsManagerTest, MethodGetComponentReturnsNullptrIfNoRequestedComponent) {
   auto* component_type_1 =
       ecs::manager::ComponentsManager::Instance().AddComponent<ComponentType1>(1, 1, 2, 0.1);
   ASSERT_EQ(ecs::manager::ComponentsManager::Instance().GetComponent<ComponentType1>(2), nullptr);
