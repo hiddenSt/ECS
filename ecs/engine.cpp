@@ -67,7 +67,8 @@ void Engine::ShutDown() {
   manager::EntitiesManager::Destroy();
   allocator_.Free();
   for (std::size_t i = 0; i <= pool_allocators_.size(); ++i) {
-    if (pool_allocators_[i] != nullptr) allocator_.Free();
+    if (pool_allocators_[i] != nullptr)
+      allocator_.Free();
   }
   instance_ = nullptr;
 }
