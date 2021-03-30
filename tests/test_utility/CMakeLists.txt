@@ -1,0 +1,5 @@
+
+add_library(tests_utility STATIC test_component_type_1.hpp test_component_type_2.hpp)
+target_link_libraries(tests_utility PRIVATE ecs)
+target_include_directories(tests_utility PRIVATE ${ecs_SOURCE_DIR})
+set_target_properties(tests_utility PROPERTIES LINKER_LANGUAGE CXX)

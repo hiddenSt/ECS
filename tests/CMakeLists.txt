@@ -1,7 +1,11 @@
 file(GLOB_RECURSE TESTS "*_test.cpp")
+
+
+add_subdirectory(test_utility)
+
 add_executable(Run_ECS_Tests ${TESTS})
 
-target_link_libraries(Run_ECS_Tests gtest gtest_main ecs allocators)
+target_link_libraries(Run_ECS_Tests PRIVATE gtest gtest_main ecs allocators tests_utility)
 target_include_directories(Run_ECS_Tests PRIVATE
   "${gtest_SOURCE_DIR}/include"
   "${gtest_SOURCE_DIR}"
