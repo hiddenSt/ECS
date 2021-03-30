@@ -1,9 +1,15 @@
 #include <gtest/gtest.h>
 
+#include <tests/test_utility/test_component_type_1.hpp>
+#include <tests/test_utility/test_component_type_2.hpp>
+
 #include <ecs/engine.hpp>
 
 class EngineTest : public ::testing::Test {
  protected:
+  using TestComponent1 = tests::utility::TestComponentType1;
+  using TestComponent2 = tests::utility::TestComponentType2;
+
   void SetUp() override {
     memory_arena_ = new unsigned char[500];
     ecs::Engine::Initialize(memory_arena_, 500, 10);
@@ -16,18 +22,6 @@ class EngineTest : public ::testing::Test {
 
   unsigned char* memory_arena_;
 
-  struct Component1 : public ecs::component::ComponentType<Component1> {
-    explicit Component1(int pa, int pb) : a(pa), b(pb) {
-    }
-    int a, b;
-  };
-
-  struct Component2 : public ecs::component::ComponentType<Component2> {
-    explicit Component2(int pa, float pc) : a(pa), c(pc) {
-    }
-    int a;
-    float c;
-  };
 
   class System1 : public ecs::system::SystemType<System1> {
    private:
@@ -45,25 +39,24 @@ TEST_F(EngineTest, CanCreateEntity) {
 
 TEST_F(EngineTest, CanAddComponent) {
   ecs::EntityId entity_id = ecs::Engine::Instance().CreateEntity();
-  Component1* component_1 = ecs::Engine::Instance().AddComponent<Component1>(entity_id, 10, 20);
+  auto* component_1 = ecs::Engine::Instance().AddComponent<TestComponent1>(entity_id, 10, 20, 0.5);
   ASSERT_NE(component_1, nullptr);
 }
 
 TEST_F(EngineTest, CanGetComponenet) {
   ecs::EntityId entity_id = ecs::Engine::Instance().CreateEntity();
-  Component1* component_1 = ecs::Engine::Instance().AddComponent<Component1>(entity_id, 10, 20);
-  Component1* request = ecs::Engine::Instance().GetComponent<Component1>(entity_id);
+  auto* component_1 = ecs::Engine::Instance().AddComponent<TestComponent1>(entity_id, 10, 20, 0.5);
+  auto* request = ecs::Engine::Instance().GetComponent<TestComponent1>(entity_id);
   ASSERT_EQ(component_1, request);
-  ASSERT_EQ(component_1->a, request->a);
-  ASSERT_EQ(component_1->b, request->b);
+  ASSERT_EQ(*component_1, *request);
 }
 
 TEST_F(EngineTest, RemovesComponentsFromEntity) {
   ecs::EntityId entity_id = ecs::Engine::Instance().CreateEntity();
-  Component1* component_1 = ecs::Engine::Instance().AddComponent<Component1>(entity_id, 10, 20);
+  auto* component_1 = ecs::Engine::Instance().AddComponent<TestComponent1>(entity_id, 10, 20, 0.5);
   ASSERT_NE(component_1, nullptr);
-  ecs::Engine::Instance().RemoveComponent<Component1>(entity_id);
-  Component1* request = ecs::Engine::Instance().GetComponent<Component1>(entity_id);
+  ecs::Engine::Instance().RemoveComponent<TestComponent1>(entity_id);
+  auto* request = ecs::Engine::Instance().GetComponent<TestComponent1>(entity_id);
   ASSERT_EQ(request, nullptr);
 }
 
